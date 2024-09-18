@@ -1,4 +1,4 @@
-# note_hub
+# Note Hub
 
 A new Flutter project.
 
