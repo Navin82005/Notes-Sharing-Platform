@@ -31,7 +31,6 @@ To set up the project locally, follow these steps:
    3. Install dependencies:
       ```
       flutter pub get
-
    4. Run the application:
       ```
       flutter run
@@ -52,3 +51,5 @@ For more information or any queries, please contact us at [contact-information].
 ## Acknowledgments
 Special thanks to [institution/organization/person] for guidance and resources that made this project possible.
 -->
+
+
