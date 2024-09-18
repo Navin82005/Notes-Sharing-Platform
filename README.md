@@ -28,11 +28,10 @@ To set up the project locally, follow these steps:
    2. Navigate to the project directory:
       ```
       cd note_hub
-   
    3. Install dependencies:
       ```
       flutter pub get
-   
+
    4. Run the application:
       ```
       flutter run
