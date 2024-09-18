@@ -22,24 +22,24 @@ This project is a collaborative effort by a team of 5 members, each contributing
 
 ## Installation
 To set up the project locally, follow these steps:
-1. Clone the repository:
-   ```
-   git clone https://github.com/Navin82005/Notes-Sharing-Platform.git
-
-2. Navigate to the project directory:
-  ```
-  cd note_hub
-  ```
-
-3. Install dependencies:
-  ```
-  flutter pub get
-  ```
-
-5. Run the application:
-  ```
-  flutter run
-  ```
+   1. Clone the repository:
+      ```
+      git clone https://github.com/Navin82005/Notes-Sharing-Platform.git
+   
+   2. Navigate to the project directory:
+     ```
+     cd note_hub
+     ```
+   
+   3. Install dependencies:
+     ```
+     flutter pub get
+     ```
+   
+   5. Run the application:
+     ```
+     flutter run
+     ```
 
 <!-- ## Contributors
 - Member 1: [Role/Responsibilities]
