@@ -1,1 +1,9 @@
 // Important notes goes here
+Icons attributions
+
+FlatIcons
+<a href="https://www.flaticon.com/free-icons/diary" title="diary icons">Diary icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/diary" title="diary icons">Diary icons created by Karyative - Flaticon</a>
+
+Icons8
+<a target="_blank" href="https://icons8.com/icon/n1Z4H7G4RdY0/copybook">Copybook</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
