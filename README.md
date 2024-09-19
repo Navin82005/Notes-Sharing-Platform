@@ -20,12 +20,6 @@ NoteHub is a mobile application developed using Flutter, designed to facilitate 
 ## Collaboration
 This project is a collaborative effort by a team of 5 members, each contributing to different facets of the application, from backend development to UI design and user experience.
 
-## Output
-<img href="https://github.com/Navin82005/Online-Learning-App/blob/main/output/app_icon.jpg" />
-<img href="https://github.com/Navin82005/Online-Learning-App/blob/main/output/splash_screen" />
-<img href="https://github.com/Navin82005/Online-Learning-App/blob/main/output/home_screen.jpg" />
-<img href="https://github.com/Navin82005/Online-Learning-App/blob/main/output/course_screen.jpg" />
-
 ## Installation
 To set up the project locally, follow these steps:
    1. Clone the repository:
