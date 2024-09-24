@@ -16,6 +16,10 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^6.2.1
   flutter_launcher_icons: ^0.13.1
+  lottie: ^3.1.2
+  get: ^4.6.6
+  animated_text_kit: ^4.2.2
+  intl: ^0.19.0
 
 
 # custom app icon
@@ -42,6 +46,7 @@ flutter:
     - assets/icons/
     - assets/vectors/
     - assets/documents/
+    - assets/animations/
 
   # fonts:
   #   - family:
