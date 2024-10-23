@@ -24,6 +24,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   hive:
   hive_flutter:
+  http:
+  image_picker:
 
 # custom app icon
 flutter_launcher_icons:
