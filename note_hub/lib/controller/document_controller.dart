@@ -24,7 +24,7 @@ class DocumentController extends GetxController {
         description: "conceptual learning of backtracking using python",
         likes: 120,
         icon: "assets/images/home.jpeg",
-        dateOfUpload: DateTime(2024, 8, 2),
+        dateOfUpload: DateTime(2024, 8, 24),
       ),
     ]);
 

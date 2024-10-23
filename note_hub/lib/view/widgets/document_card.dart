@@ -1,23 +1,27 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:note_hub/core/config/color.dart';
 import 'package:note_hub/core/config/typography.dart';
+import 'package:note_hub/core/helper/custom_icon.dart';
 import 'package:note_hub/model/document_model.dart';
+
+enum ActionType { edit, more }
 
 class DocumentCard extends StatelessWidget {
   final DocumentModel document;
-  final VoidCallback onTap;
-  final VoidCallback editAction;
+  final VoidCallback? onTap;
+  final VoidCallback? action;
   final Function? imageOnTap;
+  final ActionType actionType;
 
   const DocumentCard({
     super.key,
     required this.document,
-    required this.onTap,
-    required this.editAction,
+    this.onTap,
+    this.action,
+    required this.actionType,
     this.imageOnTap,
   });
 
@@ -91,8 +95,10 @@ class DocumentCard extends StatelessWidget {
             ),
           ),
           trailing: IconButton(
-            onPressed: editAction,
-            icon: Icon(Icons.edit, color: PrimaryColor.shade600),
+            onPressed: action,
+            icon: actionType == ActionType.edit
+                ? Icon(Icons.edit, color: PrimaryColor.shade600)
+                : const Icon(Icons.more_vert),
           ),
         ),
       ),
@@ -123,7 +129,7 @@ class DocumentFooter extends StatelessWidget {
         ),
         LikesWithHeart(likes: likes),
         Text(
-          DateFormat("dd MM yyyy").format(dateOfUpload),
+          DateFormat("d/M/yyyy").format(dateOfUpload),
           style: AppTypography.body3.copyWith(
             color: GrayscaleGrayColors.lightGray,
           ),
@@ -148,9 +154,10 @@ class LikesWithHeart extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 4),
-        Icon(
-          CupertinoIcons.heart,
+        CustomIcon(
+          path: "assets/icons/heart-solid.svg",
           size: AppTypography.body3.fontSize,
+          color: Colors.red[300],
         ),
       ],
     );

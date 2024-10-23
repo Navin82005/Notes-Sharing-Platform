@@ -34,13 +34,15 @@ class Home extends StatelessWidget {
           const SafeArea(child: SizedBox.shrink()),
           DocumentCard(
             document: document[0],
-            editAction: () => print("Editing document ${document[0].name}"),
+            action: () => print("Editing document ${document[0].name}"),
             onTap: () => print("Opening document ${document[0].name}"),
+            actionType: ActionType.edit,
           ),
           DocumentCard(
             document: document[1],
-            editAction: () => print("Editing document ${document[1].name}"),
+            action: () => print("Editing document ${document[1].name}"),
             onTap: () => print("Opening document ${document[1].name}"),
+            actionType: ActionType.edit,
           ),
         ],
       ),

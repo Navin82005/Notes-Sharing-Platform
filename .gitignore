@@ -1,2 +1,5 @@
 main.py
 main.html
+package-lock.json
+node_modules
+server.config.js

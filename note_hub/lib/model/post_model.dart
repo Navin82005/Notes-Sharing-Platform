@@ -1,5 +1,4 @@
 import 'package:note_hub/model/document_model.dart';
-import 'package:note_hub/model/user_model.dart';
 
 class Comment {
   final String comment;
@@ -9,7 +8,7 @@ class Comment {
 }
 
 class PostModel {
-  final UserModel user;
+  final String username;
   final String postName;
   final String postDescription;
   final int postLikes;
@@ -18,7 +17,7 @@ class PostModel {
   final List<DocumentModel> documents;
 
   PostModel({
-    required this.user,
+    required this.username,
     required this.postName,
     required this.postDescription,
     required this.postLikes,
