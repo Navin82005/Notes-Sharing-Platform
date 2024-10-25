@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:note_hub/core/meta/app_meta.dart';
 import 'package:note_hub/model/user_model.dart';
+
+import 'package:http/http.dart' as http;
 
 class ProfileController extends GetxController {
   var profileData = UserModel(
@@ -17,7 +22,16 @@ class ProfileController extends GetxController {
   fetchUserData({username}) async {
     isLoading.value = true;
 
-    // TODO Fetch user data from the server using username
+    var uri = Uri.parse("${AppMetaData.backend_url}/api/user/$username");
+
+    try {
+      var response = await http.get(uri);
+      print(json.decode(response.body));
+    } catch (error) {
+      print("Error in fetching user data: ${error.toString()}");
+    }
+
+    await Future.delayed(const Duration(seconds: 3));
 
     profileData.value = profileData.value.copyWith(
       displayName: "Naveen N",

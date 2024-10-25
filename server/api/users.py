@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from utils import DB
 
 
-class CreateUser(APIView):
+class UserView(APIView):
     def post(self, request, *args, **kwargs):
         raw_user = request.data
         if raw_user:
@@ -50,3 +50,20 @@ class CreateUser(APIView):
         except Exception as e:
             print("Error In Get User:", str(e))
             return JsonResponse({"error": True, "message": "parameter missing"})
+
+class GetUserView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            username = kwargs["username"]
+
+            acknowledgement = DB.get_user(username)
+
+            if acknowledgement["error"]:
+                return JsonResponse(
+                    {"error": True, "message": acknowledgement["message"]}
+                )
+
+            return JsonResponse({"error": False, "user": acknowledgement["user"]})
+        except Exception as e:
+            print("Error In Get User:", str(e))
+            return JsonResponse({"error": True, "message": str(e)})

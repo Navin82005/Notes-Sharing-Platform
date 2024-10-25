@@ -141,10 +141,15 @@ class MongoDBConnector:
             users = self.db["users"]
 
             find_user = users.find_one({"username": username}, {"_id": 0})
+            
             if find_user:
+                for id in range(len(find_user["files"])):
+                    find_user["files"][id] = str(find_user["files"][id])
+                    
                 return {"error": False, "user": find_user}
             return {"error": True, "message": "no such user"}
         except Exception as e:
+            print("Log in get_user:", str(e))
             return {"error": True, "message": str(e)}
 
     def remove_user(self, username) -> Dict[str, Union[bool, Dict[str, str], str]]:

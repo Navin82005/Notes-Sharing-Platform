@@ -11,7 +11,7 @@ import 'package:note_hub/core/meta/app_meta.dart';
 import 'package:note_hub/layout.dart';
 
 import 'package:note_hub/model/user_model.dart';
-import 'package:note_hub/tmp.dart';
+// import 'package:note_hub/tmp.dart';
 
 import 'package:note_hub/view/home_screen/home.dart';
 import 'package:note_hub/view/splash_screen/splash.dart';
