@@ -1,10 +1,11 @@
 from typing import Dict, Union
 
 from pymongo import MongoClient
-from pymongo.collection import InsertOneResult
+from bson.objectid import ObjectId
 import gridfs as gf
-from datetime import datetime
 
+
+from datetime import datetime
 from config import mongo_connection_string
 
 
@@ -36,19 +37,38 @@ class MongoDBConnector:
     def get_documents(self, username: str) -> Dict[str, Union[bool, Dict[str, str], str]]:
         users = self.db["users"]
         find_user = users.find_one({"username": username})
+        document_collection = self.db["documents"]
         print("find_user:", find_user)
         if find_user:
             documents = []
-            filenames = list(find_user["files"])
-            if filenames:
-                for i in filenames:
-                    file = self.gridFS.find(filename=i)
-                    documents.append(file)
-                return {"error": False, "data": documents}
+            file_ids = list(find_user["files"])
+            # print(file_ids)
+            if file_ids:
+                for id in file_ids:
+                    tmp = document_collection.find_one({"_id": id}, {"_id": 0})
+                    print(tmp)
+                    tmp["cover"] = str(tmp["cover"])
+                    tmp["document"] = str(tmp["document"])
+                    documents.append(tmp)
+                return {"error": False, "documents": documents}
             else:
                 return {"error": True, "data": "no documents found"}
         else:
             return {"error": True, "data": f"no users found for {username}"}
+
+
+    def download_document(self, document_id):
+        try:
+            document = self.gridFS.get_last_version(_id=ObjectId(document_id))
+            print(document)
+            if document:
+                return {"error": False, "document": document}
+            return {"error": True, "message": "no document found"}
+        # except gf.errors.NoFile:
+            # return {"error": True, "message": "no document found"}
+        except Exception as e:
+            return {"error": True, "message": str(e)}
+
 
     def put_document(self, data):
         try:
@@ -71,8 +91,10 @@ class MongoDBConnector:
             if not data.__contains__("document"):
                 return {"error": True, "message": "Document must be sent"}
             
-            file = data["document"]
-            file_id = self.gridFS.put(file.file)
+            file_data = data["document"].read()
+            file_name = data["document"].name
+            content_type = data["document"].content_type
+            file_id = self.gridFS.put(file_data, filename=file_name, contentType=content_type)
             
             new_document = {
                 "name": data["documentName"],
@@ -87,10 +109,6 @@ class MongoDBConnector:
             insert_acknowledgement = documents.insert_one(new_document)
             users.find_one_and_update({"_id": user["_id"]}, {"$push": {"files": insert_acknowledgement.inserted_id}})
             
-            # documents.insert_one({"name"})
-            # f_id = self.gridFS.put(data["file"].file)
-            # print(f_id)
-            # return {"error": False, "data" : str(f_id)}
             return {"error": False, "acknowledgement": True}
         except Exception as e:
             return {"error": True, "message": str(e)}
