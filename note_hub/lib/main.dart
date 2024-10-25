@@ -11,6 +11,7 @@ import 'package:note_hub/core/meta/app_meta.dart';
 import 'package:note_hub/layout.dart';
 
 import 'package:note_hub/model/user_model.dart';
+import 'package:note_hub/tmp.dart';
 
 import 'package:note_hub/view/home_screen/home.dart';
 import 'package:note_hub/view/splash_screen/splash.dart';
@@ -19,7 +20,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
   await Hive.openBox<UserModel>("user");
-  // print("userBox ${HiveBoxes.userBox.values.toList()[0].username}");
+
   Get.put(BottomNavigationController());
 
   runApp(const MyApp());
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: Home(),
       home: const Layout(),
+      // home: const Tmp(),
     );
   }
 }

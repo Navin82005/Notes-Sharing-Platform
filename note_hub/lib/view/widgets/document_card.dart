@@ -37,10 +37,10 @@ class DocumentCard extends StatelessWidget {
               icon: Icon(Icons.close, color: DangerColors.shade500),
             ),
           ),
-          Image.network(
-            document.icon,
-            fit: BoxFit.contain,
-          ),
+          // Image.network(
+          //   document.icon,
+          //   fit: BoxFit.contain,
+          // ),
         ],
       ),
       transitionDuration: Duration.zero,
@@ -78,10 +78,10 @@ class DocumentCard extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(2),
-                child: Image.network(
-                  document.icon,
-                  fit: BoxFit.contain,
-                ),
+                // child: Image.network(
+                //   document.icon,
+                //   fit: BoxFit.contain,
+                // ),
               ),
             ),
           ),

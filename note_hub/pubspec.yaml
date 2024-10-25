@@ -26,6 +26,8 @@ dependencies:
   hive_flutter:
   http:
   image_picker:
+  path_provider:
+  uuid: ^4.5.1
 
 # custom app icon
 flutter_launcher_icons:
