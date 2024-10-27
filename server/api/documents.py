@@ -19,8 +19,10 @@ class DocumentView(APIView):
     def post(self, request, *args, **kwargs):
         
         if (request.data):
-            acknowledgement = DB.put_document(request.data, request.FILES.getlist("document[]"))
-            return JsonResponse({"error": False, "acknowledgement": acknowledgement}, status=201)
+            acknowledgement = DB.put_document(request.data, request.FILES.getlist("document"))
+            if acknowledgement["error"]:
+                return JsonResponse({"error": True, "message": acknowledgement["message"]})
+            return JsonResponse({"error": False, "acknowledgement": acknowledgement["acknowledgement"]}, status=201)
         
         return JsonResponse({"error": True, "message": "no files sent"})
 

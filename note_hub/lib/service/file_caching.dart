@@ -18,7 +18,7 @@ Future<void> saveAndOpenFile(
     await dio.download(uri, savePath);
   } catch (error) {
     print("Error downloading file $uri");
-    showTostError(message: "Unable to open file");
+    Toasts.showTostError(message: "Unable to open file");
   }
   OpenFile.open(savePath);
 

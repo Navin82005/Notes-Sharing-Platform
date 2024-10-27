@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:note_hub/controller/document_controller.dart';
 import 'package:note_hub/core/helper/hive_boxes.dart';
 import 'package:note_hub/model/document_model.dart';
+import 'package:note_hub/view/home_screen/widget/home_document_section.dart';
+import 'package:note_hub/view/home_screen/widget/home_header.dart';
 import 'package:note_hub/view/widgets/document_card.dart';
 
 // final List<DocumentModel> document = [
@@ -51,10 +53,15 @@ class _HomeState extends State<Home> {
     loadData();
     return const Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          SafeArea(child: SizedBox.shrink()),
-        ],
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          children: [
+            SafeArea(child: SizedBox.shrink()),
+            HomeHeader(),
+            // HomeDocumentSection(),
+          ],
+        ),
       ),
     );
   }

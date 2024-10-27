@@ -43,6 +43,8 @@ class DocumentCard extends StatelessWidget {
               : Image.network(
                   document.icon,
                   fit: BoxFit.contain,
+                  width: Get.width,
+                  height: Get.height / 1.5,
                 ),
         ],
       ),
@@ -87,6 +89,7 @@ class DocumentCard extends StatelessWidget {
                 : Image.network(
                     document.icon,
                     fit: BoxFit.cover,
+                    width: 50,
                   ),
           ),
           title: Text(document.name, style: AppTypography.subHead1),

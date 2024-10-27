@@ -11,9 +11,8 @@ import 'package:note_hub/core/meta/app_meta.dart';
 import 'package:note_hub/layout.dart';
 
 import 'package:note_hub/model/user_model.dart';
-// import 'package:note_hub/tmp.dart';
+import 'package:note_hub/view/auth_screen/login.dart';
 
-import 'package:note_hub/view/home_screen/home.dart';
 import 'package:note_hub/view/splash_screen/splash.dart';
 import 'package:toastification/toastification.dart';
 
@@ -40,9 +39,10 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        // home: Home(),
-        home: const Layout(),
-        // home: const Tmp(),
+        home: const Splash(),
+        // home: HiveBoxes.userBox.containsKey("data")
+        //     ? const Layout()
+        //     : const Login(),
       ),
     );
   }

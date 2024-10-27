@@ -4,6 +4,24 @@ from rest_framework.views import APIView
 
 from utils import DB
 
+class UserLogin(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            mode = kwargs.pop('mode')
+            if mode == 'email':
+                body = request.data
+                print("Body:", body)
+                if body["username"]:
+                    acknowledgement = DB.login(username=body["username"], password=body["password"])
+                    if acknowledgement["error"]:
+                        return JsonResponse({"error": True, "message": acknowledgement["message"]})
+                    return JsonResponse({"error": False, "user": acknowledgement["user"]})
+                return JsonResponse({"error": True, "message": "unknown user"})
+            else:
+                return JsonResponse({"error": True, "message": "unknown method"})
+        except Exception as e:
+            print("Internal Server Error: " + str(e))
+            return JsonResponse({"error": True, "message": "fields missing"})
 
 class UserView(APIView):
     def post(self, request, *args, **kwargs):

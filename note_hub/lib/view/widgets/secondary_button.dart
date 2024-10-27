@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:note_hub/core/config/color.dart';
 import 'package:note_hub/core/config/typography.dart';
 
@@ -51,8 +51,10 @@ class SecondaryButton extends StatelessWidget {
             ),
             padding: EdgeInsets.zero,
             elevation: 0,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            minimumSize: Size.zero,
           ),
-          onPressed: () {},
+          onPressed: onTap,
           child: Center(
             child: child ??
                 Text(

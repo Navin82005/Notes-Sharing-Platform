@@ -5,7 +5,7 @@ import 'package:note_hub/core/config/typography.dart';
 
 class PrimaryButton extends StatelessWidget {
   final Color? color;
-  final String text;
+  final String? text;
 
   final VoidCallback? onTap;
 
@@ -19,7 +19,7 @@ class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     super.key,
     this.color,
-    required this.text,
+    this.text,
     this.onTap,
     this.borderRadius,
     this.width,
@@ -35,22 +35,24 @@ class PrimaryButton extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: color ?? OtherColors.malibu,
+        color: color ?? OtherColors.amethystPurple,
       ),
       child: Center(
         child: TextButton(
           style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+            elevation: 0,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            minimumSize: Size.zero,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.zero,
             ),
-            padding: EdgeInsets.zero,
-            elevation: 0,
           ),
-          onPressed: () {},
+          onPressed: onTap,
           child: Center(
             child: child ??
                 Text(
-                  text,
+                  text!,
                   style: textStyle ??
                       AppTypography.subHead3.copyWith(
                         color: GrayscaleBlackColors.black,

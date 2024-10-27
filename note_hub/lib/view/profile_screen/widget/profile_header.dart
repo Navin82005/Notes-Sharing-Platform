@@ -21,6 +21,7 @@ class ProfileHeader extends StatelessWidget {
       child: const Column(
         children: [
           TopSection(),
+          SizedBox(height: 24),
           ButtonSection(),
         ],
       ),
@@ -94,21 +95,27 @@ class ButtonSection extends StatelessWidget {
         children: [
           Expanded(
             child: PrimaryButton(
-              height: 40,
-              text: "Edit profile",
-              textStyle: AppTypography.subHead3.copyWith(
-                color: GrayscaleWhiteColors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  "Edit profile",
+                  style: AppTypography.subHead3.copyWith(
+                    color: GrayscaleWhiteColors.white,
+                  ),
+                ),
               ),
             ),
           ),
           const SizedBox(width: 12),
           SecondaryButton(
             width: Get.width / 8,
-            height: 40,
-            child: CustomIcon(
-              path: "assets/icons/send.svg",
-              size: 20,
-              color: GrayscaleBlackColors.lightBlack,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: CustomIcon(
+                path: "assets/icons/send.svg",
+                size: 20,
+                color: GrayscaleBlackColors.lightBlack,
+              ),
             ),
           ),
         ],

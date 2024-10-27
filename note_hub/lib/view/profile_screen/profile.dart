@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_hub/controller/profile_controller.dart';
 import 'package:note_hub/controller/showcase_controller.dart';
+import 'package:note_hub/core/config/color.dart';
 import 'package:note_hub/core/helper/hive_boxes.dart';
 import 'package:note_hub/view/profile_screen/widget/profile_header.dart';
 import 'package:note_hub/view/profile_screen/widget/profile_showcase.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Profile extends StatefulWidget {
   final String username;
@@ -36,9 +38,10 @@ class _ProfileState extends State<Profile> {
         children: [
           GetX<ProfileController>(builder: (controller) {
             if (controller.isLoading.value) {
-              return const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
+              return Shimmer.fromColors(
+                baseColor: GrayscaleWhiteColors.almostWhite,
+                highlightColor: GrayscaleWhiteColors.white,
+                child: const ProfileHeader(),
               );
             }
             return const ProfileHeader();

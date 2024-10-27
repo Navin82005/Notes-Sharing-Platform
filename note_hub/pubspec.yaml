@@ -30,7 +30,8 @@ dependencies:
   uuid: ^4.5.1
   dio:
   toastification: ^2.3.0
-  
+  shimmer: ^3.0.0
+
 # custom app icon
 flutter_launcher_icons:
   android: "launcher_icon"

@@ -24,6 +24,8 @@ class ProfileController extends GetxController {
 
     var uri = Uri.parse("${AppMetaData.backend_url}/api/user/$username");
 
+    // await Future.delayed(const Duration(seconds: 3));
+
     try {
       var response = await http.get(uri);
       var response_data = json.decode(response.body);

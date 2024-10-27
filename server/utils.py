@@ -73,6 +73,7 @@ class MongoDBConnector:
 
     def put_document(self, data: QueryDict, files: list):
         try:
+            print(files)
             username = data["username"]
             users = self.db["users"]
             user = users.find_one({"username": username})
@@ -85,7 +86,7 @@ class MongoDBConnector:
             if data.__contains__("description"):
                 description = data["description"]
             
-            if not data.__contains__("document[]"):
+            if not data.__contains__("document"):
                 return {"error": True, "message": "Document must be sent"}
             
             file_data = files[0].read()
@@ -107,7 +108,7 @@ class MongoDBConnector:
                 "cover": cover_id,
                 "coverName": cover_file_name,
                 "document": file_id,
-                "documentName":file_name,
+                "documentName": file_name,
                 "dateOfUpload": datetime.now()
             }
             
@@ -179,6 +180,13 @@ class MongoDBConnector:
         except Exception as e:
             return {"error": True, "data": str(e)}
 
+    def login(self, username, password):
+        user = self.db["users"].find_one({"username": username, "password": password}, {"_id": 0, "password": 0})
+        print(user)
+        if user:
+            return {"error": False, "user": user}
+        
+        return {"error": True, "message": "no users found"}
 
 DB = MongoDBConnector(connection_string=mongo_connection_string)
 print("Created database connection object:")
