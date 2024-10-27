@@ -27,12 +27,8 @@ class _LayoutState extends State<Layout> {
   }
 
   void loadData() async {
-    await Get.find<ProfileController>()
+    Get.find<ProfileController>()
         .fetchUserData(username: HiveBoxes.userBox.get("data")!.username);
-    await Get.find<ShowcaseController>()
-        .fetchProfilePosts(username: "navin82005@gmail.com");
-    await Get.find<ShowcaseController>()
-        .fetchSavedPosts(username: "navin82005@gmail.com");
     HiveBoxes.userBox.put(
       "data",
       UserModel(
@@ -52,6 +48,7 @@ class _LayoutState extends State<Layout> {
   Widget build(BuildContext context) {
     return GetX<BottomNavigationController>(
       builder: (controller) => Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           toolbarHeight: 0,
         ),

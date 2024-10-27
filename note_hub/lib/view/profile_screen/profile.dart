@@ -22,13 +22,16 @@ class _ProfileState extends State<Profile> {
   }
 
   loadUserData() async {
-    await Get.find<ProfileController>()
-        .fetchUserData(username: widget.username);
+    Get.find<ProfileController>().fetchUserData(username: widget.username);
+    Get.find<ShowcaseController>()
+        .fetchProfilePosts(username: HiveBoxes.userBox.get("data")!.username);
   }
 
   @override
   Widget build(BuildContext context) {
+    loadUserData(); // TODO Remove in production
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           GetX<ProfileController>(builder: (controller) {
@@ -40,7 +43,7 @@ class _ProfileState extends State<Profile> {
             }
             return const ProfileHeader();
           }),
-          ProfileShowcase(),
+          const ProfileShowcase(),
         ],
       ),
     );

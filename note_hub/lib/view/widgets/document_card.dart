@@ -6,6 +6,7 @@ import 'package:note_hub/core/config/color.dart';
 import 'package:note_hub/core/config/typography.dart';
 import 'package:note_hub/core/helper/custom_icon.dart';
 import 'package:note_hub/model/document_model.dart';
+import 'package:note_hub/service/file_caching.dart';
 
 enum ActionType { edit, more }
 
@@ -37,10 +38,12 @@ class DocumentCard extends StatelessWidget {
               icon: Icon(Icons.close, color: DangerColors.shade500),
             ),
           ),
-          // Image.network(
-          //   document.icon,
-          //   fit: BoxFit.contain,
-          // ),
+          document.icon == ""
+              ? const CustomIcon(path: "assets/icons/files.svg")
+              : Image.network(
+                  document.icon,
+                  fit: BoxFit.contain,
+                ),
         ],
       ),
       transitionDuration: Duration.zero,
@@ -65,25 +68,26 @@ class DocumentCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         child: ListTile(
-          onTap: onTap,
+          onTap: () {
+            onTap == null
+                ? saveAndOpenFile(
+                    uri: document.document,
+                    name: document.documentName,
+                  )
+                : onTap!();
+          },
           leading: GestureDetector(
-            onTap: _showImage,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: GrayscaleGrayColors.lightGray,
-                ),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(2),
-                // child: Image.network(
-                //   document.icon,
-                //   fit: BoxFit.contain,
-                // ),
-              ),
-            ),
+            onTap: () {
+              if (document.icon != "") {
+                _showImage();
+              }
+            },
+            child: document.icon == ""
+                ? const CustomIcon(path: "assets/icons/files.svg")
+                : Image.network(
+                    document.icon,
+                    fit: BoxFit.cover,
+                  ),
           ),
           title: Text(document.name, style: AppTypography.subHead1),
           subtitle: Padding(

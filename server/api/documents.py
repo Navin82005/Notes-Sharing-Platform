@@ -6,19 +6,20 @@ from utils import DB
 
 class DocumentView(APIView):
     def get(self, request, *args, **kwargs):
-        if request.data.__contains__("username"):
-            username = request.data["username"]
+        if kwargs.__contains__("username"):
+            username = kwargs["username"]
             acknowledgement = DB.get_documents(username=username)
+            if acknowledgement["error"]:
+                return JsonResponse({"error": True, "message": acknowledgement["message"]})
 
-            return JsonResponse({"error": False, "documents": acknowledgement})
+            return JsonResponse({"error": False, "documents": acknowledgement["documents"]})
 
         return JsonResponse({"error": True, "message": "required username"})
 
     def post(self, request, *args, **kwargs):
         
         if (request.data):
-            print(request.data)
-            acknowledgement = DB.put_document(request.data)
+            acknowledgement = DB.put_document(request.data, request.FILES.getlist("document[]"))
             return JsonResponse({"error": False, "acknowledgement": acknowledgement}, status=201)
         
         return JsonResponse({"error": True, "message": "no files sent"})

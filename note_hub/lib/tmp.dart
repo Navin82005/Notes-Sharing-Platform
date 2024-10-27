@@ -5,15 +5,15 @@ import 'package:note_hub/controller/showcase_controller.dart';
 import 'package:open_file/open_file.dart';
 
 void loadData() async {
-  final rawData = await ShowcaseController.tmpFetchDocumentData();
-  print("RAW DATA: $rawData}");
-  final path = await saveFile(
-    filename: rawData["filename"],
-    data: rawData["document"]["data"]["data"],
-  );
+  // final rawData = await ShowcaseController.tmpFetchDocumentData();
+  // print("RAW DATA: $rawData}");
+  // final path = await saveFile(
+  //   filename: rawData["filename"],
+  //   data: rawData["document"]["data"]["data"],
+  // );
 
-  print(path);
-  await OpenFile.open(path);
+  // print(path);
+  // await OpenFile.open(path);
 }
 
 class Tmp extends StatelessWidget {

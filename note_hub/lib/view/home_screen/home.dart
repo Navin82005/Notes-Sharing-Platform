@@ -48,13 +48,12 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<DocumentController>().fetchDocsForUsername(
-      username: HiveBoxes.userBox.get("data")!.username,
-    );
-    return Scaffold(
+    loadData();
+    return const Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          const SafeArea(child: SizedBox.shrink()),
+          SafeArea(child: SizedBox.shrink()),
         ],
       ),
     );

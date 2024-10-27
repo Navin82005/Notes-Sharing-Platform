@@ -26,24 +26,24 @@ class ProfileController extends GetxController {
 
     try {
       var response = await http.get(uri);
-      print(json.decode(response.body));
+      var response_data = json.decode(response.body);
+      if (response_data["error"] == true) {
+        print("Error: ${response_data['message']}");
+        return;
+      }
+      var user = response_data["user"];
+      profileData.value = profileData.value.copyWith(
+        displayName: user["display_name"],
+        username: user["username"],
+        profile: user["profile"],
+        institute: user["institute"],
+        followers: user["followers"],
+        following: user["following"],
+        documents: user["files"],
+      );
     } catch (error) {
       print("Error in fetching user data: ${error.toString()}");
     }
-
-    await Future.delayed(const Duration(seconds: 3));
-
-    profileData.value = profileData.value.copyWith(
-      displayName: "Naveen N",
-      username: "navin82005@gmail.com",
-      institute: "Sri Shakthi Institute of Engineering Technology",
-      profile:
-          "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-      followers: 10,
-      following: 12,
-      documents: 0,
-    );
-
     isLoading.value = false;
   }
 }

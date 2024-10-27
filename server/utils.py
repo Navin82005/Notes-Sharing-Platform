@@ -1,5 +1,6 @@
 from typing import Dict, Union
 
+from django.http import QueryDict
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import gridfs as gf
@@ -38,7 +39,7 @@ class MongoDBConnector:
         users = self.db["users"]
         find_user = users.find_one({"username": username})
         document_collection = self.db["documents"]
-        print("find_user:", find_user)
+        
         if find_user:
             documents = []
             file_ids = list(find_user["files"])
@@ -46,15 +47,15 @@ class MongoDBConnector:
             if file_ids:
                 for id in file_ids:
                     tmp = document_collection.find_one({"_id": id}, {"_id": 0})
-                    print(tmp)
                     tmp["cover"] = str(tmp["cover"])
                     tmp["document"] = str(tmp["document"])
                     documents.append(tmp)
+                print("Documents:", documents)
                 return {"error": False, "documents": documents}
             else:
-                return {"error": True, "data": "no documents found"}
+                return {"error": True, "message": "no documents found"}
         else:
-            return {"error": True, "data": f"no users found for {username}"}
+            return {"error": True, "message": f"no users found for {username}"}
 
 
     def download_document(self, document_id):
@@ -70,7 +71,7 @@ class MongoDBConnector:
             return {"error": True, "message": str(e)}
 
 
-    def put_document(self, data):
+    def put_document(self, data: QueryDict, files: list):
         try:
             username = data["username"]
             users = self.db["users"]
@@ -84,25 +85,29 @@ class MongoDBConnector:
             if data.__contains__("description"):
                 description = data["description"]
             
-            cover = None
-            if data.__contains__("cover"):
-                cover = data["cover"]
-            
-            if not data.__contains__("document"):
+            if not data.__contains__("document[]"):
                 return {"error": True, "message": "Document must be sent"}
             
-            file_data = data["document"].read()
-            file_name = data["document"].name
-            content_type = data["document"].content_type
-            file_id = self.gridFS.put(file_data, filename=file_name, contentType=content_type)
+            file_data = files[0].read()
+            file_name = files[0].name
+            file_content_type = files[0].content_type
+            
+            cover_file_data = files[1].read()
+            cover_file_name = files[1].name
+            cover_content_type = files[1].content_type
+            
+            file_id = self.gridFS.put(file_data, filename=file_name, contentType=file_content_type)
+            cover_id = self.gridFS.put(cover_file_data, filename=cover_file_name, contentType=cover_content_type)
             
             new_document = {
                 "name": data["documentName"],
                 "topic": data["topic"],
                 "likes": 0,
                 "description": description,
-                "cover": cover,
+                "cover": cover_id,
+                "coverName": cover_file_name,
                 "document": file_id,
+                "documentName":file_name,
                 "dateOfUpload": datetime.now()
             }
             
@@ -122,9 +127,11 @@ class MongoDBConnector:
                 users = self.db["users"]
                 find_user = users.find_one({"username": username})
                 user_data["files"] = []
-                print(find_user)
 
                 if not find_user:
+                    user_data["likes"] = 0
+                    user_data["followers"] = {"count": 0, "accounts": []}
+                    user_data["following"] = {"count": 0, "accounts": []}
                     print("User created successfully:", user_data)
                     users.insert_one(user_data)
                     new_user = users.find_one({"username": username}, {"_id": 0})
@@ -156,8 +163,16 @@ class MongoDBConnector:
         try:
             users = self.db["users"]
             find_user = users.find_one({"username": username})
-
+            documents = self.db["documents"]
+            
             if find_user:
+                for doc_id in find_user["files"]:
+                    document = documents.find_one({"_id": ObjectId(doc_id)})
+                    if document:
+                        if document["cover"] != None:
+                            self.gridFS.delete(document["cover"])
+                        if document["document"] != None:
+                            self.gridFS.delete(document["document"])
                 users.delete_one({"username": username})
                 return {"error": False, "data": "removed user"}
             return {"error": True, "data": "no users found"}

@@ -53,7 +53,13 @@ class BottomFooter extends StatelessWidget {
                 },
                 child: CustomAvatar(
                   radius: controller.currentPage.value != 2 ? 15 : 17,
-                  path: Get.find<ProfileController>().profileData.value.profile,
+                  path: Get.find<ProfileController>()
+                              .profileData
+                              .value
+                              .profile ==
+                          ""
+                      ? "https://ui-avatars.com/api/?name=${Get.find<ProfileController>().profileData.value.displayName}"
+                      : Get.find<ProfileController>().profileData.value.profile,
                 ),
               ),
             ],

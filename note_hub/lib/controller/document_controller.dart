@@ -15,9 +15,15 @@ class DocumentController extends GetxController {
     isLoading.value = true;
 
     documents.clear();
-    print(
-        "Fetching data from backend ${AppMetaData.backend_url}/documents/$username");
+    print("Fetching data from ${AppMetaData.backend_url}/documents/$username");
 
     isLoading.value = false;
+  }
+
+  fetchDocument({required String documentId}) async {
+    Uri uri;
+    // try {
+    //   uri = Uri.parse();
+    // }
   }
 }

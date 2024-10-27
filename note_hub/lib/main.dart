@@ -15,6 +15,7 @@ import 'package:note_hub/model/user_model.dart';
 
 import 'package:note_hub/view/home_screen/home.dart';
 import 'package:note_hub/view/splash_screen/splash.dart';
+import 'package:toastification/toastification.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -31,16 +32,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "${AppMetaData.appName} | Home",
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ToastificationWrapper(
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "${AppMetaData.appName} | Home",
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        // home: Home(),
+        home: const Layout(),
+        // home: const Tmp(),
       ),
-      // home: Home(),
-      home: const Layout(),
-      // home: const Tmp(),
     );
   }
 }

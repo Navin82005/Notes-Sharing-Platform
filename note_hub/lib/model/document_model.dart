@@ -20,10 +20,11 @@ class DocumentModel {
   String name;
   String description;
   String topic;
-  DocumentFile icon;
+  String icon;
   int likes;
   DateTime dateOfUpload;
-  List document;
+  String documentName;
+  String document;
 
   DocumentModel({
     required this.name,
@@ -32,6 +33,7 @@ class DocumentModel {
     required this.likes,
     required this.icon,
     required this.dateOfUpload,
+    required this.documentName,
     required this.document,
   });
 }

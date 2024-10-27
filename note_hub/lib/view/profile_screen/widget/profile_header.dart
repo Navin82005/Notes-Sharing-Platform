@@ -43,7 +43,7 @@ class TopSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _renderAvatar(profileData.profile),
+              _renderAvatar(profileData.profile, profileData.displayName),
               const Spacer(),
               FollowerWidget(
                 data: profileData.documents.toString(),
@@ -68,15 +68,16 @@ class TopSection extends StatelessWidget {
     );
   }
 
-  _renderAvatar(profile) {
+  _renderAvatar(profile, name) {
     if (profile != "") {
       return CircleAvatar(
         radius: 40,
         backgroundImage: NetworkImage(profile),
       );
     } else {
-      return const CircleAvatar(
+      return CircleAvatar(
         radius: 40,
+        backgroundImage: NetworkImage("https://ui-avatars.com/api/?name=$name"),
       );
     }
   }

@@ -7,10 +7,10 @@ import 'package:note_hub/core/helper/custom_icon.dart';
 
 import 'package:note_hub/controller/showcase_controller.dart';
 import 'package:note_hub/core/helper/hive_boxes.dart';
-
-import 'package:note_hub/model/post_model.dart';
+import 'package:note_hub/model/document_model.dart';
 
 import 'package:note_hub/view/widgets/document_card.dart';
+import 'package:open_file/open_file.dart';
 
 class ProfileShowcase extends StatelessWidget {
   const ProfileShowcase({super.key});
@@ -55,36 +55,41 @@ class ProfileShowcase extends StatelessWidget {
 }
 
 class PostsRenderer extends StatelessWidget {
-  final List<PostModel> posts;
+  final List<DocumentModel> posts;
   const PostsRenderer({super.key, required this.posts});
 
   @override
   Widget build(BuildContext context) {
-    if (posts.isEmpty) {
-      return const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: CustomIcon(path: "assets/icons/files.svg")),
-          SizedBox(height: 10),
-          Center(child: Text("No Documents to Display")),
-        ],
+    return GetX<ShowcaseController>(builder: (controller) {
+      if (controller.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      if (posts.isEmpty) {
+        return const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: CustomIcon(path: "assets/icons/files.svg")),
+            SizedBox(height: 10),
+            Center(child: Text("No Documents to Display")),
+          ],
+        );
+      }
+      return Container(
+        margin: const EdgeInsets.only(top: 15),
+        child: ListView.builder(
+          itemCount: posts.length,
+          itemBuilder: (context, index) {
+            return DocumentCard(
+              document: posts[index],
+              actionType:
+                  Get.find<ProfileController>().profileData.value.username ==
+                          HiveBoxes.userBox.get("data")!.username
+                      ? ActionType.edit
+                      : ActionType.more,
+            );
+          },
+        ),
       );
-    }
-    return Container(
-      margin: const EdgeInsets.only(top: 15),
-      child: ListView.builder(
-        itemCount: posts.length,
-        itemBuilder: (context, index) {
-          return DocumentCard(
-            document: posts[index].documents[0],
-            actionType:
-                Get.find<ProfileController>().profileData.value.username ==
-                        HiveBoxes.userBox.get("data")!.username
-                    ? ActionType.edit
-                    : ActionType.more,
-          );
-        },
-      ),
-    );
+    });
   }
 }

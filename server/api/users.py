@@ -7,6 +7,7 @@ from utils import DB
 
 class UserView(APIView):
     def post(self, request, *args, **kwargs):
+        raw_user = kwargs["username"]
         raw_user = request.data
         if raw_user:
             acknowledgement = DB.create_new_user(**raw_user)
@@ -25,9 +26,9 @@ class UserView(APIView):
         )
 
     def delete(self, request, *args, **kwargs):
-        raw_user = request.data
+        raw_user = kwargs["username"]
         if raw_user:
-            new_user = DB.remove_user(raw_user["username"])
+            new_user = DB.remove_user(raw_user)
 
             return JsonResponse({"error": False, "user": new_user}, status=200)
 
@@ -35,23 +36,6 @@ class UserView(APIView):
             {"error": True, "message": "invalid data passed"}, status=400
         )
 
-    def get(self, request, *args, **kwargs):
-        try:
-            username = request.data["username"]
-
-            acknowledgement = DB.get_user(username)
-
-            if acknowledgement["error"]:
-                return JsonResponse(
-                    {"error": True, "message": acknowledgement["message"]}
-                )
-
-            return JsonResponse({"error": False, "user": acknowledgement["user"]})
-        except Exception as e:
-            print("Error In Get User:", str(e))
-            return JsonResponse({"error": True, "message": "parameter missing"})
-
-class GetUserView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             username = kwargs["username"]
@@ -62,8 +46,12 @@ class GetUserView(APIView):
                 return JsonResponse(
                     {"error": True, "message": acknowledgement["message"]}
                 )
+            user = acknowledgement["user"]
+            user["files"] = len(user["files"])
+            user["followers"] = user["followers"]["count"]
+            user["following"] = user["following"]["count"]
 
             return JsonResponse({"error": False, "user": acknowledgement["user"]})
         except Exception as e:
             print("Error In Get User:", str(e))
-            return JsonResponse({"error": True, "message": str(e)})
+            return JsonResponse({"error": True, "message": "parameter missing"})
