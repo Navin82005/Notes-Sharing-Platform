@@ -27,8 +27,7 @@ class _LayoutState extends State<Layout> {
   }
 
   void loadData() async {
-    Get.find<ProfileController>()
-        .fetchUserData(username: HiveBoxes.userBox.get("data")!.username);
+    Get.find<ProfileController>().fetchUserData(username: HiveBoxes.username);
     HiveBoxes.userBox.put(
       "data",
       UserModel(

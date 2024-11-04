@@ -10,7 +10,6 @@ from datetime import datetime
 from config import mongo_connection_string
 
 
-
 class MongoDBConnector:
     def __init__(self, connection_string: str, database: str = None):
         print("Connecting to MongoDB...")
@@ -43,11 +42,11 @@ class MongoDBConnector:
         if find_user:
             documents = []
             file_ids = list(find_user["files"])
-            # print(file_ids)
             if file_ids:
                 for id in file_ids:
-                    tmp = document_collection.find_one({"_id": id}, {"_id": 0})
+                    tmp = document_collection.find_one({"_id": id})
                     tmp["cover"] = str(tmp["cover"])
+                    tmp["_id"] = str(tmp["_id"])
                     tmp["document"] = str(tmp["document"])
                     documents.append(tmp)
                 print("Documents:", documents)
@@ -56,7 +55,6 @@ class MongoDBConnector:
                 return {"error": True, "message": "no documents found"}
         else:
             return {"error": True, "message": f"no users found for {username}"}
-
 
     def download_document(self, document_id):
         try:
@@ -70,10 +68,8 @@ class MongoDBConnector:
         except Exception as e:
             return {"error": True, "message": str(e)}
 
-
     def put_document(self, data: QueryDict, files: list):
         try:
-            print(files)
             username = data["username"]
             users = self.db["users"]
             user = users.find_one({"username": username})
@@ -100,14 +96,22 @@ class MongoDBConnector:
             file_id = self.gridFS.put(file_data, filename=file_name, contentType=file_content_type)
             cover_id = self.gridFS.put(cover_file_data, filename=cover_file_name, contentType=cover_content_type)
             
+            profile = None
+            
+            if "profile" in user.keys():
+                profile = user["profile"]
+            
             new_document = {
+                "username": data["username"],
+                "displayName": user["display_name"],
+                "profile": profile,
                 "name": data["documentName"],
                 "topic": data["topic"],
                 "likes": 0,
                 "description": description,
-                "cover": cover_id,
+                "cover": str(cover_id),
                 "coverName": cover_file_name,
-                "document": file_id,
+                "document": str(file_id),
                 "documentName": file_name,
                 "dateOfUpload": datetime.now()
             }
@@ -116,6 +120,99 @@ class MongoDBConnector:
             users.find_one_and_update({"_id": user["_id"]}, {"$push": {"files": insert_acknowledgement.inserted_id}})
             
             return {"error": False, "acknowledgement": True}
+        except Exception as e:
+            return {"error": True, "message": str(e)}
+
+    def delete_document(self, document_data):
+        document_collection = self.db["documents"]
+        document = document_collection.find_one({"_id": ObjectId(document_data["document_id"])})
+        users = self.db["users"]
+        
+        if document:
+            newuser = users.update_one({"username": document_data["user_id"]}, {"$pull": {"files": ObjectId(document_data["document_id"])}})
+            print("newuser:", newuser)
+            if document["cover"] != None:
+                self.gridFS.delete(ObjectId(document["cover"]))
+            if document["document"] != None:
+                self.gridFS.delete(ObjectId(document["document"]))
+            document_collection.delete_one({"_id": ObjectId(document["_id"])})
+            return {"error": False, "acknowledgement": True}
+        
+        return {"error": True, "message": "invalid document id"}
+
+    def get_document(self, document_id):
+        document_collection = self.db["documents"]
+        document = document_collection.find_one({"_id": ObjectId(document_id)})
+        if document:
+            document["cover"] = str(document["cover"])
+            document["_id"] = str(document["_id"])
+            document["document"] = str(document["document"])
+            return {"error": False, "document": document}
+        
+        return {"error": True, "message": "invalid document id"}
+
+    def fetch50(self):
+        try:
+            documents_collection = self.db["documents"]
+            documents = documents_collection.find({}).limit(50)
+            documents = list(documents)
+            for i in documents:
+                i["_id"] = str(i["_id"])
+            return {"error": False, "documents": documents}
+        except Exception as e:
+            print("Error Utils.fetch50:" + str(e))
+            return {"error": True, "message": str(e)}
+
+
+    def doc_like(self, data):
+        try:
+            user = self.db["users"].find_one({"username": data["username"]})
+            document = self.db["documents"].find_one({"_id": ObjectId(data["document_id"])})
+            
+            if user and document:
+                self.db["users"].update_one({"username": data["username"]}, {"$push": {"liked_docs": str(document["_id"])}})
+                return {"error": False, "acknowledgement": True}
+            return {"error": True, "message": "no documents matching"}
+        
+        except Exception as e:
+            return {"error": True, "message": str(e)}
+
+    def doc_unlike(self, data):
+        try:
+            user = self.db["users"].find_one({"username": data["username"]})
+            document = self.db["documents"].find_one({"_id": ObjectId(data["document_id"])})
+            
+            if user and document:
+                self.db["users"].update_one({"username": data["username"]}, {"$pull": {"liked_docs": str(document["_id"])}})
+                return {"error": False, "acknowledgement": True}
+            return {"error": True, "message": "no documents matching"}
+        
+        except Exception as e:
+            return {"error": True, "message": str(e)}
+    
+    def doc_bookmark(self, data):
+        try:
+            user = self.db["users"].find_one({"username": data["username"]})
+            document = self.db["documents"].find_one({"_id": ObjectId(data["document_id"])})
+            
+            if user and document:
+                self.db["users"].update_one({"username": data["username"]}, {"$push": {"bookmarked_docs": str(document["_id"])}})
+                return {"error": False, "acknowledgement": True}
+            return {"error": True, "message": "no documents matching"}
+        
+        except Exception as e:
+            return {"error": True, "message": str(e)}
+
+    def doc_un_bookmark(self, data):
+        try:
+            user = self.db["users"].find_one({"username": data["username"]})
+            document = self.db["documents"].find_one({"_id": ObjectId(data["document_id"])})
+            
+            if user and document:
+                self.db["users"].update_one({"username": data["username"]}, {"$pull": {"bookmarked_docs": str(document["_id"])}})
+                return {"error": False, "acknowledgement": True}
+            return {"error": True, "message": "no documents matching"}
+        
         except Exception as e:
             return {"error": True, "message": str(e)}
 
@@ -174,6 +271,7 @@ class MongoDBConnector:
                             self.gridFS.delete(document["cover"])
                         if document["document"] != None:
                             self.gridFS.delete(document["document"])
+                    documents.delete_one({"_id": ObjectId(document["_id"])})
                 users.delete_one({"username": username})
                 return {"error": False, "data": "removed user"}
             return {"error": True, "data": "no users found"}
@@ -183,6 +281,9 @@ class MongoDBConnector:
     def login(self, username, password):
         user = self.db["users"].find_one({"username": username, "password": password}, {"_id": 0, "password": 0})
         print(user)
+        for fil in range(len(user["files"])):
+            user["files"][fil] = str(user["files"][fil])
+            
         if user:
             return {"error": False, "user": user}
         

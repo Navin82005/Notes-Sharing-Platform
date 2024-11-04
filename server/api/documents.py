@@ -1,3 +1,4 @@
+import json
 from django.http import JsonResponse, FileResponse, HttpRequest
 from rest_framework.views import APIView
 
@@ -25,23 +26,36 @@ class DocumentView(APIView):
             return JsonResponse({"error": False, "acknowledgement": acknowledgement["acknowledgement"]}, status=201)
         
         return JsonResponse({"error": True, "message": "no files sent"})
-
-# class DocumentDownloadView(APIView):
-#     def get(self, request: HttpRequest, *args, **kwargs):
-#         request_body = request.data
-        
-#         if request_body.__contains__("document_id"):
-#             document_id = request_body["document_id"]
-#             print(document_id)
-#             acknowledgement = DB.download_document(document_id)
-#             if acknowledgement["error"]:
-#                 return JsonResponse(acknowledgement)
+    
+    def delete(self, request, *args, **kwargs):
+        print(args)
+        body = json.loads(request.body)
+        if "document_id" in body.keys() and "user_id" in body.keys():
+            acknowledgement = DB.delete_document(document_data=body)
             
-#             file = acknowledgement["document"]
-#             response = FileResponse(file, content_type=file.content_type)
-#             response["Content-Disposition"] = f'inline; filename="{file.filename}"'
-#             return response
-#         return JsonResponse({"error": True, "message": "required document id"})
+            if acknowledgement["error"]:
+                return JsonResponse({"error": True, "message": acknowledgement["message"]})
+            
+            return JsonResponse({"error": True, "acknowledgement": acknowledgement["acknowledgement"]})
+        
+        return JsonResponse({"error": True, "message": "no file id sent"})
+
+def get_single_document(request):
+    try:
+        body = json.loads(request.body)
+        print("Body in get_single_document:", body)
+        if "document_id" in body.keys():
+            
+            acknowledgement = DB.get_document(body["document_id"])
+            if acknowledgement["error"]:
+                return JsonResponse({"error": True, "message": acknowledgement["message"]})
+                
+            
+            return JsonResponse({"error": False, "document": acknowledgement["document"]})
+        return JsonResponse({"error": True, "message": "no document id sent"})
+    except Exception as e:
+        return JsonResponse({"error": True, "message": str(e)})
+    
 
 class DocumentDownloadView(APIView):
     def get(self, request: HttpRequest, *args, **kwargs):

@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+	<title>bookmark-svg</title>
+	<defs>
+		<image  width="16" height="20" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAMAAACzvE1FAAAAAXNSR0IB2cksfwAAAFpQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAi0leUQAAAB50Uk5TAo3o/+SMAYWB8/vw/v3xdgUAB/KYFReb08ItML+6NwNh7AAAAFFJREFUeJxjZGBkZGSAASCbkf0PAzJgZeT8hcRl/8nByMyACoa8AOd3ZAHO71zfGODCYAFuUCAx/mX5ABQCCXAwQgKJlfErUECCkRFhABcjIwDWfw97V7GsBwAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+	</style>
+	<use  href="#img1" x="4" y="2"/>
+</svg>

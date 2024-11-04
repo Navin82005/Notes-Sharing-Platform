@@ -3,5 +3,6 @@
         "Grayscale",
         "notehub",
         "Toastification"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

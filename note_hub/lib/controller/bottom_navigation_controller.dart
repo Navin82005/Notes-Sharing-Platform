@@ -11,6 +11,6 @@ class BottomNavigationController extends GetxController {
   List<Widget> page = [
     const Home(),
     const UploadScreen(),
-    Profile(username: HiveBoxes.userBox.get("data")!.username),
+    Profile(username: HiveBoxes.username),
   ];
 }
