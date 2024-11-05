@@ -5,24 +5,25 @@ import 'package:notehub/core/config/color.dart';
 import 'package:notehub/core/config/typography.dart';
 import 'package:notehub/core/helper/custom_icon.dart';
 
-import 'package:notehub/controller/profile_controller.dart';
+import 'package:notehub/model/user_model.dart';
 
 import 'package:notehub/view/profile_screen/widget/follower_widget.dart';
 import 'package:notehub/view/widgets/primary_button.dart';
 import 'package:notehub/view/widgets/secondary_button.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+  final UserModel profileData;
+  const ProfileHeader({super.key, required this.profileData});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-      child: const Column(
+      child: Column(
         children: [
-          TopSection(),
-          SizedBox(height: 24),
-          ButtonSection(),
+          TopSection(profileData: profileData),
+          const SizedBox(height: 24),
+          const ButtonSection(),
         ],
       ),
     );
@@ -30,11 +31,11 @@ class ProfileHeader extends StatelessWidget {
 }
 
 class TopSection extends StatelessWidget {
-  const TopSection({super.key});
+  final UserModel profileData;
+  const TopSection({super.key, required this.profileData});
 
   @override
   Widget build(BuildContext context) {
-    var profileData = Get.find<ProfileController>().profileData.value;
     return SizedBox(
       width: Get.width,
       child: Column(

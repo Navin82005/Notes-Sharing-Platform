@@ -44,5 +44,35 @@ class ShowcaseController extends GetxController {
     isLoading.value = false;
   }
 
-  fetchSavedPosts({username}) async {}
+  fetchSavedPosts({username}) async {
+    isLoading.value = true;
+
+    savedPosts.clear();
+    update();
+    // await Future.delayed(const Duration(seconds: 3));
+    Uri uri;
+    try {
+      uri =
+          Uri.parse("${AppMetaData.backend_url}/api/documents/$username/saved");
+      var response = await http.get(uri);
+      var body = json.decode(response.body);
+
+      if (body["error"]) {
+        isLoading.value = false;
+        return;
+      }
+      var tmpData = <DocumentModel>[];
+      var data = body["documents"];
+      for (var doc in data) {
+        var tmp = DocumentModel.toDocument(doc);
+        tmpData.add(tmp);
+      }
+      savedPosts.value = tmpData;
+      update();
+    } catch (e) {
+      print("Error in fetching saved posts: ${e.toString()}");
+    }
+
+    isLoading.value = false;
+  }
 }

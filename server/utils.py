@@ -32,24 +32,62 @@ class MongoDBConnector:
             exit(1)
         print("Successfully connected to GridFS")
 
+    def helperBook(self, doc, username):
+        if not doc.__contains__("bookmarkedBy"):
+            doc["bookmarkedBy"] = False
+        elif doc.__contains__("bookmarkedBy"):
+            if username in doc["bookmarkedBy"]:
+                doc["bookmarkedBy"] = True
+            else:
+                doc["bookmarkedBy"] = False
+    
+    def helperLike(self, doc, username):
+        if not doc.__contains__("likedBy"):
+            doc["likedBy"] = False
+        elif doc.__contains__("likedBy"):
+            if username in doc["likedBy"]:
+                doc["likedBy"] = True
+            else:
+                doc["likedBy"] = False
+        
+    def helperFollow(self, doc, user):
+        followers = user["followers"]["accounts"]
+        if doc["username"] in followers:
+            doc["isFollowedByUser"] = True
+        else:
+            doc["isFollowedByUser"] = False
+
+    def helper_get_files(self, file_ids, username):
+        document_collection = self.db["documents"]
+        documents = []
+        
+        if file_ids:
+            for id in file_ids:
+                tmp = document_collection.find_one({"_id": ObjectId(id)})
+                tmp["cover"] = str(tmp["cover"])
+                tmp["_id"] = str(tmp["_id"])
+                tmp["document"] = str(tmp["document"])
+                self.helperBook(tmp, username)
+                self.helperLike(tmp, username)
+                self.helperFollow(tmp, self.db["users"].find_one({"username": username}))
+                documents.append(tmp)
+        return documents
 
     # NOTE DOCUMENT DATABASE SERVICES
-    def get_documents(self, username: str) -> Dict[str, Union[bool, Dict[str, str], str]]:
+    def get_documents(self, username: str, state: str = "uploaded") -> Dict[str, Union[bool, Dict[str, str], str]]:
         users = self.db["users"]
         find_user = users.find_one({"username": username})
-        document_collection = self.db["documents"]
         
         if find_user:
-            documents = []
-            file_ids = list(find_user["files"])
-            if file_ids:
-                for id in file_ids:
-                    tmp = document_collection.find_one({"_id": id})
-                    tmp["cover"] = str(tmp["cover"])
-                    tmp["_id"] = str(tmp["_id"])
-                    tmp["document"] = str(tmp["document"])
-                    documents.append(tmp)
-                print("Documents:", documents)
+            if state == "saved":
+                file_ids = list(find_user["bookmarked_docs"])
+                documents = self.helper_get_files(file_ids, username)
+                
+                return {"error": False, "documents": documents}
+            elif state == "uploaded":
+                file_ids = list(find_user["files"])
+                
+                documents = self.helper_get_files(file_ids, username)
                 return {"error": False, "documents": documents}
             else:
                 return {"error": True, "message": "no documents found"}
@@ -147,17 +185,26 @@ class MongoDBConnector:
             document["cover"] = str(document["cover"])
             document["_id"] = str(document["_id"])
             document["document"] = str(document["document"])
+            self.helperBook(document, "")
+            self.helperFollow(document, "")
+            self.helperLike(document, "")
             return {"error": False, "document": document}
         
         return {"error": True, "message": "invalid document id"}
 
-    def fetch50(self):
+    def fetch50(self, username):
+        find_user = self.db["users"].find_one({"username": username})
+        if not find_user:
+            return {"error": True, "message": "invalid username"}
         try:
             documents_collection = self.db["documents"]
             documents = documents_collection.find({}).limit(50)
             documents = list(documents)
             for i in documents:
                 i["_id"] = str(i["_id"])
+                self.helperBook(i, username)
+                self.helperLike(i, username)
+                self.helperFollow(i, find_user)
             return {"error": False, "documents": documents}
         except Exception as e:
             print("Error Utils.fetch50:" + str(e))
@@ -171,6 +218,8 @@ class MongoDBConnector:
             
             if user and document:
                 self.db["users"].update_one({"username": data["username"]}, {"$push": {"liked_docs": str(document["_id"])}})
+                self.db["documents"].update_one({"_id": ObjectId(data["document_id"])}, {"$inc": {"likes": 1}})
+                self.db["documents"].update_one({"_id": ObjectId(data["document_id"])}, {"$push": {"likedBy": data["username"]}})
                 return {"error": False, "acknowledgement": True}
             return {"error": True, "message": "no documents matching"}
         
@@ -184,6 +233,8 @@ class MongoDBConnector:
             
             if user and document:
                 self.db["users"].update_one({"username": data["username"]}, {"$pull": {"liked_docs": str(document["_id"])}})
+                self.db["documents"].update_one({"_id": ObjectId(data["document_id"])}, {"$inc": {"likes": -1}})
+                self.db["documents"].update_one({"_id": ObjectId(data["document_id"])}, {"$pull": {"likedBy": data["username"]}})
                 return {"error": False, "acknowledgement": True}
             return {"error": True, "message": "no documents matching"}
         
@@ -197,6 +248,7 @@ class MongoDBConnector:
             
             if user and document:
                 self.db["users"].update_one({"username": data["username"]}, {"$push": {"bookmarked_docs": str(document["_id"])}})
+                self.db["documents"].update_one({"_id": ObjectId(data["document_id"])}, {"$push": {"bookmarkedBy": data["username"]}})
                 return {"error": False, "acknowledgement": True}
             return {"error": True, "message": "no documents matching"}
         
@@ -210,6 +262,7 @@ class MongoDBConnector:
             
             if user and document:
                 self.db["users"].update_one({"username": data["username"]}, {"$pull": {"bookmarked_docs": str(document["_id"])}})
+                self.db["documents"].update_one({"_id": ObjectId(data["document_id"])}, {"$pull": {"bookmarkedBy": data["username"]}})
                 return {"error": False, "acknowledgement": True}
             return {"error": True, "message": "no documents matching"}
         
@@ -288,6 +341,23 @@ class MongoDBConnector:
             return {"error": False, "user": user}
         
         return {"error": True, "message": "no users found"}
+
+    def followUnFollow(self, username, alt_username):
+        users = self.db["users"]
+        main_user = users.find_one({"username": username})
+        follow_user = users.find_one({"username": alt_username})
+        if main_user:
+            if follow_user:
+                if follow_user["username"] in main_user["following"]["accounts"]:
+                    users.update_one({"username": username}, { "$pull" : {"following.accounts": alt_username}, "$inc" : {"following.count": -1}})
+                    users.update_one({"username": alt_username}, { "$pull" : {"followers.accounts": username}, "$inc" : {"followers.count": -1}})
+                else:
+                    users.update_one({"username": username}, { "$push" : {"following.accounts": alt_username}, "$inc" : {"following.count": 1}})
+                    users.update_one({"username": alt_username}, { "$push" : {"followers.accounts": username}, "$inc" : {"followers.count": 1}, "$push" : {"notifications.follow": f"{follow_user["display_name"]} followed you"}}, upsert=True)
+                return {"error": False, "acknowledgement": True}
+            else:
+                return {"error": True, "message": "unknown follow user"}
+        return {"error": True, "message": "unknown user"}
 
 DB = MongoDBConnector(connection_string=mongo_connection_string)
 print("Created database connection object:")

@@ -1,11 +1,33 @@
+import json
+
 from django.http import JsonResponse
 from rest_framework.views import APIView
 
 from utils import DB
 
+class UserFollowView(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        if not data:
+            return JsonResponse({"error": True, "message": "missing required parameters"})
+        print(data)
+        # body = json.loads(data)
+        body = data
+        username = kwargs["username"]
+        if body.__contains__("username"):
+            alt_username = body["username"]
+            acknowledgement = DB.followUnFollow(username, alt_username)
+            if acknowledgement["error"]:
+                return JsonResponse({"error": True, "message": acknowledgement["message"]})
+            
+            return JsonResponse({"error": False, "acknowledgement": True})
+        return JsonResponse({"error": True, "message": "required fields are missing"})
+
 class HomeView(APIView):
     def get(self, request, *args, **kwargs):
-        acknowledgement = DB.fetch50()
+        if not kwargs.__contains__("username"):
+            return JsonResponse({"error": True, "message": "username required"})
+        acknowledgement = DB.fetch50(kwargs["username"])
         
         if acknowledgement["error"]:
             return JsonResponse({"error": True, "message": "no documents"})

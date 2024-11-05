@@ -5,6 +5,18 @@ from rest_framework.views import APIView
 from utils import DB
 
 
+class SavedDocumentView(APIView):
+    def get(self, request, *args, **kwargs):
+        if kwargs.__contains__("username"):
+            username = kwargs["username"]
+            acknowledgement = DB.get_documents(username=username, state="saved")
+            if acknowledgement["error"]:
+                return JsonResponse({"error": True, "message": acknowledgement["message"]})
+
+            return JsonResponse({"error": False, "documents": acknowledgement["documents"]})
+
+        return JsonResponse({"error": True, "message": "required username"})
+
 class DocumentView(APIView):
     def get(self, request, *args, **kwargs):
         if kwargs.__contains__("username"):

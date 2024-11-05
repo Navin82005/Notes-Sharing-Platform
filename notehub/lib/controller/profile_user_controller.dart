@@ -7,9 +7,8 @@ import 'package:notehub/core/meta/app_meta.dart';
 import 'package:notehub/model/user_model.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:notehub/view/widgets/toasts.dart';
 
-class ProfileController extends GetxController {
+class ProfileUserController extends GetxController {
   var profileData = UserModel(
     displayName: '',
     username: "",
@@ -27,8 +26,6 @@ class ProfileController extends GetxController {
 
     var uri = Uri.parse("${AppMetaData.backend_url}/api/user/$username");
 
-    // await Future.delayed(const Duration(seconds: 3));
-
     try {
       var response = await http.get(uri);
       var response_data = json.decode(response.body);
@@ -41,17 +38,6 @@ class ProfileController extends GetxController {
         return;
       }
       var user = response_data["user"];
-      print(user);
-      var newUser = UserModel(
-        displayName: user["display_name"],
-        username: user["username"],
-        institute: user["institute"],
-        profile: user["profile"] ?? "",
-        documents: user["files"],
-        followers: user["followers"],
-        following: user["following"],
-      );
-      await HiveBoxes.setUser(newUser);
       profileData.value = profileData.value.copyWith(
         displayName: user["display_name"],
         username: user["username"],
@@ -67,26 +53,5 @@ class ProfileController extends GetxController {
     isLoading.value = false;
   }
 
-  follow({username}) async {
-    isLoading.value = true;
-    try {
-      var url = Uri.parse(
-          "${AppMetaData.backend_url}/api/user/follow/${HiveBoxes.username}");
-      print("${AppMetaData.backend_url}/api/user/follow/${HiveBoxes.username}");
-
-      var response = await http.post(url, body: {
-        "username": username,
-      });
-      var body = json.decode(response.body);
-      if (body["error"]) {
-        Toasts.showTostError(message: "Unable to follow");
-      } else {
-        Toasts.showTostSuccess(message: "Followed $username");
-      }
-    } catch (e) {
-      Toasts.showTostError(message: "Unable to follow");
-      print("Error in following $username");
-    }
-    isLoading.value = false;
-  }
+  checkFollowers({username}) async {}
 }

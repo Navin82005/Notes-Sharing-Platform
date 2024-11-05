@@ -5,6 +5,7 @@ class DocumentModel {
   String displayName;
   String profile;
   String name;
+  bool isFollowedByUser;
   String description;
   String documentId;
   String topic;
@@ -20,6 +21,7 @@ class DocumentModel {
     required this.username,
     required this.displayName,
     required this.profile,
+    required this.isFollowedByUser,
     required this.name,
     required this.topic,
     required this.description,
@@ -38,6 +40,7 @@ class DocumentModel {
       documentId: doc["_id"],
       username: doc["username"],
       displayName: doc["displayName"],
+      isFollowedByUser: doc["isFollowedByUser"],
       profile: verifyProfile(doc),
       name: doc["name"],
       topic: doc["topic"],
@@ -48,8 +51,8 @@ class DocumentModel {
       documentName: doc["documentName"],
       document:
           '${AppMetaData.backend_url}/api/documents/download/${doc["document"]}',
-      isLiked: doc["isLiked"] ?? false,
-      isBookmarked: doc["isBookmarked"] ?? false,
+      isLiked: doc["likedBy"] ?? false,
+      isBookmarked: doc["bookmarkedBy"] ?? false,
     );
   }
 

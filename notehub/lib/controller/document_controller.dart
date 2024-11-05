@@ -33,6 +33,7 @@ class DocumentController extends GetxController {
 
   likeDislikeDocument(
       {required String documentId, required String mode}) async {
+    isLoading.value = true;
     try {
       var uri = Uri.parse("${AppMetaData.backend_url}/api/document/like");
 
@@ -64,10 +65,13 @@ class DocumentController extends GetxController {
     } catch (e) {
       print("Error in liking document ${e.toString()}");
     }
+    isLoading.value = false;
   }
 
   bookmarkUnBookmarkDocument(
       {required String documentId, required String mode}) async {
+    isLoading.value = true;
+
     try {
       var uri = Uri.parse("${AppMetaData.backend_url}/api/document/bookmark");
 
@@ -99,5 +103,6 @@ class DocumentController extends GetxController {
     } catch (e) {
       print("Error in liking document ${e.toString()}");
     }
+    isLoading.value = false;
   }
 }

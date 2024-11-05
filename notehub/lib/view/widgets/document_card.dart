@@ -8,6 +8,8 @@ import 'package:notehub/core/config/typography.dart';
 import 'package:notehub/core/helper/custom_icon.dart';
 
 import 'package:notehub/model/document_model.dart';
+import 'package:notehub/view/document_screen/document.dart';
+import 'package:notehub/view/widgets/loader.dart';
 
 enum ActionType { edit, more }
 
@@ -75,12 +77,16 @@ class DocumentCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: ListTile(
                 onTap: () {
-                  onTap == null
-                      ? controller.openDocument(
-                          document.document,
-                          document.documentName,
-                        )
-                      : onTap!();
+                  // onTap == null
+                  //     ? controller.openDocument(
+                  //         document.document,
+                  //         document.documentName,
+                  //       )
+                  //     : onTap!();
+                  Get.to(
+                    () => Document(document: document),
+                    transition: Transition.rightToLeft,
+                  );
                 },
                 leading: GestureDetector(
                   onTap: () {
@@ -115,12 +121,8 @@ class DocumentCard extends StatelessWidget {
             ),
           ),
           if (controller.isLoading.value)
-            Positioned.fill(
-              child: Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
+            const Positioned.fill(
+              child: Loader(),
             ),
         ],
       );

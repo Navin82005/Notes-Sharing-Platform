@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:notehub/core/helper/hive_boxes.dart';
 import 'package:notehub/core/meta/app_meta.dart';
 
 import 'package:notehub/model/document_model.dart';
@@ -20,7 +21,8 @@ class HomeController extends GetxController {
       print("Fetching From: ");
       print("${AppMetaData.backend_url}/api/document/fetch");
 
-      var uri = Uri.parse("${AppMetaData.backend_url}/api/document/fetch");
+      var uri = Uri.parse(
+          "${AppMetaData.backend_url}/api/document/fetch/${HiveBoxes.username}");
       var response = await http.get(uri);
 
       var body = json.decode(response.body);
