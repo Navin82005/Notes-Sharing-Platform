@@ -40,6 +40,7 @@ class ProfileUserController extends GetxController {
         return;
       }
       var user = response_data["user"];
+      print(user);
       profileData.value = profileData.value.copyWith(
         displayName: user["display_name"],
         username: user["username"],
@@ -47,7 +48,7 @@ class ProfileUserController extends GetxController {
         institute: user["institute"],
         followers: user["followers"],
         following: user["following"],
-        documents: user["files"],
+        documents: user["files"].length,
         isFollowedByUser: user["isFollowedByUser"] ?? false,
       );
     } catch (error) {
@@ -56,7 +57,7 @@ class ProfileUserController extends GetxController {
     isLoading.value = false;
   }
 
-  follow({username}) async {
+  follow({username, isProfile = true}) async {
     isLoading.value = true;
     try {
       var url = Uri.parse(
@@ -68,15 +69,28 @@ class ProfileUserController extends GetxController {
       });
       var body = json.decode(response.body);
       if (body["error"]) {
-        Toasts.showTostError(message: "Unable to follow");
+        Toasts.showTostError(message: "Unable to take action");
+        isLoading.value = false;
+        return false;
       } else {
-        Toasts.showTostSuccess(message: "Followed $username");
+        if (profileData.value.isFollowedByUser) {
+          Toasts.showTostSuccess(message: "Un followed $username");
+        } else {
+          Toasts.showTostSuccess(message: "Followed $username");
+        }
       }
     } catch (e) {
-      Toasts.showTostError(message: "Unable to follow");
+      Toasts.showTostError(message: "Unable to take action");
       print("Error in following $username");
+      isLoading.value = false;
+      return false;
     }
     isLoading.value = false;
+    if (isProfile) {
+      await fetchUserData(username: username);
+    }
+
+    return true;
   }
 
   checkFollowers({username}) async {}

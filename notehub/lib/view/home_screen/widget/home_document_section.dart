@@ -40,30 +40,32 @@ class HomeDocumentSection extends StatelessWidget {
             );
           }
 
-          return GetX<DocumentController>(builder: (docController) {
-            return Stack(
-              children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.updates.length,
-                  itemBuilder: (context, index) {
-                    return PostCard(
-                      document: controller.updates[index],
-                    );
-                  },
-                ),
-                if (docController.isLoading.value)
-                  Positioned.fill(
-                    child: Container(
-                      color: GrayscaleWhiteColors.darkWhite.withOpacity(.5),
-                      child: const Center(
-                        child: Loader(),
+          return GetX<DocumentController>(
+            builder: (docController) {
+              return Stack(
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.updates.length,
+                    itemBuilder: (context, index) {
+                      return PostCard(
+                        document: controller.updates[index],
+                      );
+                    },
+                  ),
+                  if (docController.isLoading.value)
+                    Positioned.fill(
+                      child: Container(
+                        color: GrayscaleWhiteColors.darkWhite.withOpacity(.5),
+                        child: const Center(
+                          child: Loader(),
+                        ),
                       ),
                     ),
-                  ),
-              ],
-            );
-          });
+                ],
+              );
+            },
+          );
         },
       ),
     );

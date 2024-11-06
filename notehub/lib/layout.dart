@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 
 import 'package:notehub/controller/bottom_navigation_controller.dart';
 import 'package:notehub/controller/document_controller.dart';
+import 'package:notehub/controller/download_controller.dart';
 import 'package:notehub/controller/profile_controller.dart';
+import 'package:notehub/controller/profile_user_controller.dart';
 import 'package:notehub/controller/showcase_controller.dart';
 
 import 'package:notehub/core/helper/hive_boxes.dart';
@@ -25,8 +27,10 @@ class _LayoutState extends State<Layout> {
   void initState() {
     super.initState();
     Get.put(ProfileController());
+    Get.put(ProfileUserController());
     Get.put(ShowcaseController());
     Get.put(DocumentController());
+    Get.put(DownloadController());
     loadData();
   }
 

@@ -67,7 +67,6 @@ def get_single_document(request):
         return JsonResponse({"error": True, "message": "no document id sent"})
     except Exception as e:
         return JsonResponse({"error": True, "message": str(e)})
-    
 
 class DocumentDownloadView(APIView):
     def get(self, request: HttpRequest, *args, **kwargs):

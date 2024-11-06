@@ -40,7 +40,7 @@ class MongoDBConnector:
                 doc["bookmarkedBy"] = True
             else:
                 doc["bookmarkedBy"] = False
-    
+
     def helperLike(self, doc, username):
         if not doc.__contains__("likedBy"):
             doc["likedBy"] = False
@@ -49,10 +49,10 @@ class MongoDBConnector:
                 doc["likedBy"] = True
             else:
                 doc["likedBy"] = False
-        
+
     def helperFollow(self, doc, user):
-        followers = user["followers"]["accounts"]
-        if doc["username"] in followers:
+        following = user["following"]["accounts"]
+        if doc["username"] in following:
             doc["isFollowedByUser"] = True
         else:
             doc["isFollowedByUser"] = False
@@ -205,6 +205,7 @@ class MongoDBConnector:
                 self.helperBook(i, username)
                 self.helperLike(i, username)
                 self.helperFollow(i, find_user)
+                print(i["username"] in find_user["following"]["accounts"])
             return {"error": False, "documents": documents}
         except Exception as e:
             print("Error Utils.fetch50:" + str(e))
@@ -294,13 +295,33 @@ class MongoDBConnector:
             return {"error": True, "message": str(e)}
         return {"error": True, "message": "Invalid parameters"}
 
-    def get_user(self, username: str) -> Dict[str, Union[bool, Dict[str, str], str]]:
+    def get_user(self, username: str, alt_user: str = None) -> Dict[str, Union[bool, Dict[str, str], str]]:
         try:
             users = self.db["users"]
-
-            find_user = users.find_one({"username": username}, {"_id": 0})
             
-            if find_user:
+            find_user = users.find_one({"username": username}, {"_id": 0})
+            if alt_user and find_user:
+                alt_user = users.find_one({"username": alt_user}, {"_id": 0})
+                if alt_user:
+                    alt_user["isFollowedByUser"] = False
+                    if alt_user["username"] in find_user["following"]["accounts"]:
+                        alt_user["isFollowedByUser"] = True
+                    for id in range(len(alt_user["files"])):
+                        alt_user["files"][id] = str(alt_user["files"][id])
+                    if alt_user.__contains__("liked_docs"):
+                        alt_user.pop("liked_docs")
+                    if alt_user.__contains__("bookmarked_docs"):
+                        alt_user.pop("bookmarked_docs")
+                    if alt_user.__contains__("notifications"):
+                        alt_user.pop("notifications")
+                        
+                    alt_user["following"] = alt_user["following"]["count"]
+                    alt_user["followers"] = alt_user["followers"]["count"]
+                    # print(alt_user)
+                    return {"error": False, "user": alt_user}
+                return {"error": True, "message": "no such user"}
+            
+            elif find_user:
                 for id in range(len(find_user["files"])):
                     find_user["files"][id] = str(find_user["files"][id])
                     

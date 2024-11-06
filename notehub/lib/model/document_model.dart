@@ -10,6 +10,7 @@ class DocumentModel {
   String documentId;
   String topic;
   String icon;
+  String iconName;
   int likes;
   DateTime dateOfUpload;
   String documentName;
@@ -28,6 +29,7 @@ class DocumentModel {
     required this.documentId,
     required this.likes,
     required this.icon,
+    required this.iconName,
     required this.dateOfUpload,
     required this.documentName,
     required this.document,
@@ -49,6 +51,7 @@ class DocumentModel {
       icon: '${AppMetaData.backend_url}/api/documents/download/${doc["cover"]}',
       dateOfUpload: DateTime.parse(doc["dateOfUpload"]),
       documentName: doc["documentName"],
+      iconName: doc["coverName"],
       document:
           '${AppMetaData.backend_url}/api/documents/download/${doc["document"]}',
       isLiked: doc["likedBy"] ?? false,

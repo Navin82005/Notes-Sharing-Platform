@@ -159,39 +159,42 @@ class ButtonSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Get.width,
-      child: Row(
-        children: [
-          Expanded(
-            child: PrimaryButton(
-              onTap: () {
-                Get.find<ProfileUserController>()
-                    .follow(username: profileData.username);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  !profileData.isFollowedByUser ? "Follow" : "Un follow",
-                  style: AppTypography.subHead3.copyWith(
-                    color: GrayscaleWhiteColors.white,
+      child: GetX<ProfileUserController>(builder: (controller) {
+        return Row(
+          children: [
+            Expanded(
+              child: PrimaryButton(
+                onTap: () {
+                  controller.follow(username: profileData.username);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    !controller.profileData.value.isFollowedByUser
+                        ? "Follow"
+                        : "Un follow",
+                    style: AppTypography.subHead3.copyWith(
+                      color: GrayscaleWhiteColors.white,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 12),
-          SecondaryButton(
-            width: Get.width / 8,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: CustomIcon(
-                path: "assets/icons/send.svg",
-                size: 20,
-                color: GrayscaleBlackColors.lightBlack,
+            const SizedBox(width: 12),
+            SecondaryButton(
+              width: Get.width / 8,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: CustomIcon(
+                  path: "assets/icons/send.svg",
+                  size: 20,
+                  color: GrayscaleBlackColors.lightBlack,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 }
