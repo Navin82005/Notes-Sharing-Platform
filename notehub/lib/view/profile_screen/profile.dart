@@ -10,6 +10,7 @@ import 'package:notehub/core/helper/hive_boxes.dart';
 
 import 'package:notehub/view/profile_screen/widget/profile_header.dart';
 import 'package:notehub/view/profile_screen/widget/profile_showcase.dart';
+import 'package:notehub/view/settings_screen/settings_drawer.dart';
 import 'package:notehub/view/widgets/normal_button.dart';
 import 'package:notehub/view/widgets/refresher_widget.dart';
 
@@ -27,18 +28,17 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
+    Get.put(SettingsDrawerController());
     loadUserData();
   }
 
   Future<void> loadUserData() async {
-    print("HiveBoxes.username: ${HiveBoxes.username}");
-    print("widget.username: ${widget.username}");
+    Get.put(SettingsDrawerController());
     Get.find<ProfileController>().fetchUserData(username: HiveBoxes.username);
     Get.find<ShowcaseController>()
         .fetchProfilePosts(username: HiveBoxes.username);
     Get.find<ShowcaseController>()
         .fetchSavedPosts(username: HiveBoxes.username);
-    // .fetchProfilePosts(username: "navin82005@gmail.com");
   }
 
   @override
@@ -46,16 +46,19 @@ class _ProfileState extends State<Profile> {
     return RefresherWidget(
       onRefresh: loadUserData,
       child: Scaffold(
+        key: Get.find<SettingsDrawerController>().scaffoldKey,
         resizeToAvoidBottomInset: false,
+        drawer: const SettingsDrawer(),
         body: Column(
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 NormalButton(
-                  child: CustomIcon(path: "assets/icons/settings.svg"),
+                  onPressed: Get.find<SettingsDrawerController>().openDrawer,
+                  child: const CustomIcon(path: "assets/icons/settings.svg"),
                 ),
-                SizedBox(width: 24)
+                const SizedBox(width: 24),
               ],
             ),
             GetX<ProfileController>(builder: (controller) {

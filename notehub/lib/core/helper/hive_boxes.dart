@@ -13,4 +13,8 @@ class HiveBoxes {
     await userBox.delete("data");
     await userBox.put("data", newUser);
   }
+
+  static resetUser() async {
+    await userBox.delete("data");
+  }
 }

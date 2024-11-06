@@ -53,6 +53,7 @@ class OtherColors {
   static Color gossip = const Color(0xFFC7F9BB);
   static Color broom = const Color(0xFFFFE816);
   static Color tigerLily = const Color(0xFFe66432);
+  static Color appleRed = const Color(0xFFf67373);
   static Color royalBlue = const Color(0xFF3b4aa5);
   static Color amethystPurple = const Color(0xFF7e57c2);
 }

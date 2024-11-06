@@ -7,6 +7,7 @@ import 'package:notehub/core/meta/app_meta.dart';
 import 'package:notehub/model/user_model.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:notehub/view/widgets/toasts.dart';
 
 class ProfileUserController extends GetxController {
   var profileData = UserModel(
@@ -24,10 +25,11 @@ class ProfileUserController extends GetxController {
   fetchUserData({username}) async {
     isLoading.value = true;
 
-    var uri = Uri.parse("${AppMetaData.backend_url}/api/user/$username");
+    var uri = Uri.parse(
+        "${AppMetaData.backend_url}/api/user/fetch/${HiveBoxes.username}");
 
     try {
-      var response = await http.get(uri);
+      var response = await http.post(uri, body: {"username": username});
       var response_data = json.decode(response.body);
       if (response_data["error"] == true) {
         print("Error: ${response_data['message']}");
@@ -46,9 +48,33 @@ class ProfileUserController extends GetxController {
         followers: user["followers"],
         following: user["following"],
         documents: user["files"],
+        isFollowedByUser: user["isFollowedByUser"] ?? false,
       );
     } catch (error) {
       print("Error in fetching user data: ${error.toString()}");
+    }
+    isLoading.value = false;
+  }
+
+  follow({username}) async {
+    isLoading.value = true;
+    try {
+      var url = Uri.parse(
+          "${AppMetaData.backend_url}/api/user/follow/${HiveBoxes.username}");
+      print("${AppMetaData.backend_url}/api/user/follow/${HiveBoxes.username}");
+
+      var response = await http.post(url, body: {
+        "username": username,
+      });
+      var body = json.decode(response.body);
+      if (body["error"]) {
+        Toasts.showTostError(message: "Unable to follow");
+      } else {
+        Toasts.showTostSuccess(message: "Followed $username");
+      }
+    } catch (e) {
+      Toasts.showTostError(message: "Unable to follow");
+      print("Error in following $username");
     }
     isLoading.value = false;
   }

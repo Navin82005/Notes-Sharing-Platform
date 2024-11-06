@@ -18,12 +18,15 @@ class UserModel {
   final int followers;
   @HiveField(6)
   final int documents;
+  @HiveField(7)
+  final bool isFollowedByUser;
 
   UserModel({
     required this.displayName,
     required this.username,
     required this.institute,
     required this.profile,
+    this.isFollowedByUser = false,
     this.followers = 0,
     this.following = 0,
     this.documents = 0,
@@ -37,6 +40,7 @@ class UserModel {
     int? followers,
     int? following,
     int? documents,
+    bool? isFollowedByUser,
   }) {
     return UserModel(
       displayName: displayName ?? this.displayName,
@@ -46,6 +50,7 @@ class UserModel {
       followers: followers ?? this.followers,
       following: following ?? this.following,
       documents: documents ?? this.documents,
+      isFollowedByUser: isFollowedByUser ?? this.isFollowedByUser,
     );
   }
 }

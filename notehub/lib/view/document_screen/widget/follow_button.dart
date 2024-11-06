@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:notehub/controller/profile_controller.dart';
+import 'package:notehub/controller/profile_user_controller.dart';
 import 'package:notehub/core/config/color.dart';
 import 'package:notehub/core/config/typography.dart';
 import 'package:notehub/core/helper/custom_icon.dart';
@@ -22,7 +23,7 @@ class _FollowButtonState extends State<FollowButton> {
     print("document.isFollowedByUser: ${widget.document.isFollowedByUser}");
     return TextButton(
       onPressed: () {
-        Get.find<ProfileController>().follow(
+        Get.find<ProfileUserController>().follow(
           username: widget.document.username,
         );
       },

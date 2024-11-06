@@ -7,6 +7,7 @@ import 'package:notehub/core/meta/app_meta.dart';
 import 'package:notehub/model/user_model.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:notehub/view/auth_screen/login.dart';
 import 'package:notehub/view/widgets/toasts.dart';
 
 class ProfileController extends GetxController {
@@ -67,26 +68,8 @@ class ProfileController extends GetxController {
     isLoading.value = false;
   }
 
-  follow({username}) async {
-    isLoading.value = true;
-    try {
-      var url = Uri.parse(
-          "${AppMetaData.backend_url}/api/user/follow/${HiveBoxes.username}");
-      print("${AppMetaData.backend_url}/api/user/follow/${HiveBoxes.username}");
-
-      var response = await http.post(url, body: {
-        "username": username,
-      });
-      var body = json.decode(response.body);
-      if (body["error"]) {
-        Toasts.showTostError(message: "Unable to follow");
-      } else {
-        Toasts.showTostSuccess(message: "Followed $username");
-      }
-    } catch (e) {
-      Toasts.showTostError(message: "Unable to follow");
-      print("Error in following $username");
-    }
-    isLoading.value = false;
+  logoutUser() async {
+    await HiveBoxes.resetUser();
+    Get.off(() => const Login());
   }
 }

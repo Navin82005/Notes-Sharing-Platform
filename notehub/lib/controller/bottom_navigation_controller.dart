@@ -14,6 +14,5 @@ class BottomNavigationController extends GetxController {
     const Home(),
     const UploadScreen(),
     Profile(username: HiveBoxes.username),
-    // const Profile(username: "navin82005@gmail.com"),
   ];
 }

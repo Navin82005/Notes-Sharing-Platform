@@ -7,6 +7,7 @@ import 'package:notehub/core/config/color.dart';
 
 import 'package:notehub/view/widgets/loader.dart';
 import 'package:notehub/view/widgets/post_card.dart';
+import 'package:notehub/view/widgets/refresher_widget.dart';
 
 class HomeDocumentSection extends StatelessWidget {
   const HomeDocumentSection({super.key});
@@ -19,16 +20,10 @@ class HomeDocumentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LiquidPullToRefresh(
+    return RefresherWidget(
       onRefresh: () async {
         await _handleRefresh();
       },
-      backgroundColor: OtherColors.amethystPurple,
-      showChildOpacityTransition: false,
-      color: GrayscaleWhiteColors.white,
-      borderWidth: 2,
-      animSpeedFactor: 10,
-      height: 70,
       child: GetX<HomeController>(
         builder: (controller) {
           if (controller.isLoading.value) {

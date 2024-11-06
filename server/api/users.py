@@ -73,3 +73,13 @@ class UserView(APIView):
         except Exception as e:
             print("Error In Get User:", str(e))
             return JsonResponse({"error": True, "message": "parameter missing"})
+
+
+class FetchUser(APIView):
+    def post(self, request, *args, **kwargs):
+        body = request.data
+        username = kwargs["username"]
+        if body.__contains__("username"):
+            acknowedgement = 
+            
+        return JsonResponse({"error": True, "message": "Required username"})

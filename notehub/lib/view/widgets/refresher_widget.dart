@@ -22,7 +22,7 @@ class RefresherWidget extends StatelessWidget {
       borderWidth: 2,
       animSpeedFactor: 10,
       height: 70,
-      child: child,
+      child: Expanded(child: child),
     );
   }
 }
