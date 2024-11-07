@@ -5,3 +5,8 @@ node_modules
 server.config.js
 note_hub_server
 config.py
+__pycache__
+migrations
+server\__pycache__
+server\home\__pycache__
+server\server\__pycache__

@@ -80,3 +80,20 @@ class BookMarkDoc(APIView):
             return JsonResponse({"error": False, "acknowledgement": True})
         
         return JsonResponse({"error": True, "message": "missing fields"})
+
+class GetConnection(APIView):
+    def post(self, request, *args, **kwargs):
+        username = kwargs.pop("username")
+        type = kwargs.pop("type")
+        acknowledgement = None
+        if type == "follower":
+            acknowledgement = DB.get_followers(username)
+        elif type == "following":
+            acknowledgement = DB.get_following(username)
+        
+        if acknowledgement and acknowledgement["error"]:
+            return JsonResponse({"error": True, "message": acknowledgement["message"]})
+        else:
+            return JsonResponse({"error": False, "users": acknowledgement["users"]})
+        
+        return JsonResponse({"error": True, "message": "Missing fields"})

@@ -59,7 +59,7 @@ class AuthController extends GetxController {
             displayName: user["display_name"],
             username: user["username"],
             institute: user["institute"],
-            profile: user["profile"] ?? "",
+            profile: user["profile"] ?? "NA",
             documents: user["files"].length,
             followers: user["followers"]["count"],
             following: user["following"]["count"],

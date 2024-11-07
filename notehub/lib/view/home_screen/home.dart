@@ -31,13 +31,11 @@ class _HomeState extends State<Home> {
     }
     Get.find<DocumentController>().fetchDocsForUsername(
       username: HiveBoxes.username,
-      // username: "navin82005@gmail.com",
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    loadData();
     var homeController = Get.find<HomeController>();
     if (!homeController.isFetched.value) {
       homeController.fetchUpdates();

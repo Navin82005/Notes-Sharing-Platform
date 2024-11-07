@@ -44,7 +44,7 @@ class ProfileUserController extends GetxController {
       profileData.value = profileData.value.copyWith(
         displayName: user["display_name"],
         username: user["username"],
-        profile: user["profile"],
+        profile: user["profile"] ?? "NA",
         institute: user["institute"],
         followers: user["followers"],
         following: user["following"],

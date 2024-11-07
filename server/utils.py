@@ -380,5 +380,47 @@ class MongoDBConnector:
                 return {"error": True, "message": "unknown follow user"}
         return {"error": True, "message": "unknown user"}
 
+
+    def get_followers(self, username):
+        users_collection = self.db["users"]
+        find_user = users_collection.find_one({"username": username}, {"_id": 0})
+        if find_user is not None:
+            users = []
+            followers = find_user["followers"]["accounts"]
+            print("find_user:", find_user)
+            for follower in followers:
+                user = users_collection.find_one({"username": follower}, {"_id": 0})
+                user.pop("followers")
+                user.pop("following")
+                user.pop("files")
+                user["isFollowedByUser"] = True
+                users.append(user)
+            return {"error": False, "users": users}
+        return {"error": True, "message": "invalid username"}
+
+    def get_following(self, username):
+        users_collection = self.db["users"]
+        find_user = users_collection.find_one({"username": username}, {"_id": 0})
+        if find_user is not None:
+            users = []
+            following = find_user["following"]["accounts"]
+            for follow in following:
+                user = users_collection.find_one({"username": follow}, {"_id": 0})
+                user.pop("followers")
+                user.pop("following")
+                user.pop("files")
+                user.pop("password")
+                if user.__contains__("liked_docs"):
+                    user.pop("liked_docs")
+                if user.__contains__("bookmarked_docs"):
+                    user.pop("bookmarked_docs")
+                if user.__contains__("notifications"):
+                    user.pop("notifications")
+                    
+                user["isFollowedByUser"] = False
+                users.append(user)
+            return {"error": False, "users": users}
+        return {"error": True, "message": "invalid username"}
+        
 DB = MongoDBConnector(connection_string=mongo_connection_string)
 print("Created database connection object:")

@@ -6,6 +6,7 @@ import 'package:notehub/controller/profile_controller.dart';
 import 'package:notehub/core/config/color.dart';
 import 'package:notehub/core/config/typography.dart';
 import 'package:notehub/core/helper/custom_icon.dart';
+import 'package:notehub/core/meta/app_meta.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -54,11 +55,14 @@ class HomeHeader extends StatelessWidget {
   }
 
   _renderAvatar(ProfileController controller) {
+    print("Color Code: ${OtherColors.amethystPurple.value}");
+    print(
+        "${AppMetaData.avatar_url}&name=${controller.profileData.value.displayName}");
     return CircleAvatar(
       radius: 24,
       backgroundImage: NetworkImage(
-        controller.profileData.value.profile == ""
-            ? "https://ui-avatars.com/api/?name=${controller.profileData.value.displayName})"
+        controller.profileData.value.profile == "NA"
+            ? "${AppMetaData.avatar_url}&name=${controller.profileData.value.displayName}"
             : controller.profileData.value.profile,
       ),
     );

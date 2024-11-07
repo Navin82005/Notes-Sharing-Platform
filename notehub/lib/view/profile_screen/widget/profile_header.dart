@@ -6,6 +6,7 @@ import 'package:notehub/core/config/typography.dart';
 import 'package:notehub/core/helper/custom_icon.dart';
 
 import 'package:notehub/model/user_model.dart';
+import 'package:notehub/view/connection_screen/connection.dart';
 
 import 'package:notehub/view/profile_screen/widget/follower_widget.dart';
 import 'package:notehub/view/widgets/primary_button.dart';
@@ -51,13 +52,39 @@ class TopSection extends StatelessWidget {
                 data: profileData.documents.toString(),
                 display: "documents",
               ),
-              FollowerWidget(
-                data: profileData.followers.toString(),
-                display: "followers",
+              GestureDetector(
+                onTap: () {
+                  Get.bottomSheet(
+                    Connection(
+                      username: profileData.username,
+                      type: ConnectionType.follower,
+                    ),
+                  );
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: FollowerWidget(
+                    data: profileData.followers.toString(),
+                    display: "followers",
+                  ),
+                ),
               ),
-              FollowerWidget(
-                data: profileData.following.toString(),
-                display: "following",
+              GestureDetector(
+                onTap: () {
+                  Get.bottomSheet(
+                    Connection(
+                      username: profileData.username,
+                      type: ConnectionType.following,
+                    ),
+                  );
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: FollowerWidget(
+                    data: profileData.following.toString(),
+                    display: "following",
+                  ),
+                ),
               ),
             ],
           ),

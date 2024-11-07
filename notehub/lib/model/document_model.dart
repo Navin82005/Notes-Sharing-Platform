@@ -60,8 +60,9 @@ class DocumentModel {
   }
 
   static String verifyProfile(doc) {
-    if (doc["profile"] == "" || doc["profile"] == null) {
-      return "https://ui-avatars.com/api/?name=${doc["displayName"]}";
+    if (doc["profile"] == "NA" || doc["profile"] == null) {
+      print("AppMetaData.avatar_url: ${AppMetaData.avatar_url}");
+      return "${AppMetaData.avatar_url}&name=${doc["displayName"]}";
     }
     return '${AppMetaData.backend_url}/api/documents/download/${doc["profile"]}';
   }

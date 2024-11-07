@@ -58,8 +58,8 @@ class FileDownload {
     final androidDetails = AndroidNotificationDetails(
       'download_channel',
       'Download Progress',
-      importance: Importance.low,
-      priority: Priority.low,
+      importance: Importance.high,
+      priority: Priority.high,
       onlyAlertOnce: true,
       showProgress: true,
       maxProgress: 100,

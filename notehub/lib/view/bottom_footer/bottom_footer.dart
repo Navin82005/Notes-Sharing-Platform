@@ -6,6 +6,7 @@ import 'package:notehub/controller/profile_controller.dart';
 
 import 'package:notehub/core/config/color.dart';
 import 'package:notehub/core/helper/custom_icon.dart';
+import 'package:notehub/core/meta/app_meta.dart';
 
 class BottomFooter extends StatelessWidget {
   const BottomFooter({super.key});
@@ -50,6 +51,7 @@ class BottomFooter extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
+                  print(AppMetaData.avatar_url);
                   controller.currentPage.value = 2;
                   controller.update();
                 },
@@ -59,8 +61,8 @@ class BottomFooter extends StatelessWidget {
                               .profileData
                               .value
                               .profile ==
-                          ""
-                      ? "https://ui-avatars.com/api/?name=${Get.find<ProfileController>().profileData.value.displayName}"
+                          "NA"
+                      ? "${AppMetaData.avatar_url}&name=${Get.find<ProfileController>().profileData.value.displayName}"
                       : Get.find<ProfileController>().profileData.value.profile,
                 ),
               ),
