@@ -15,8 +15,6 @@ Future<String> saveAndOpenFile(
   String code = tmpPaths[tmpPaths.length - 1];
   String savePath = "${temporaryDirectory.path}/${code}_$name";
 
-  print("Save Path: $savePath");
-
   if (await ifFileExists(savePath)) {
     return savePath;
   }

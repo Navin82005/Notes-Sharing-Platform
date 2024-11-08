@@ -54,12 +54,10 @@ class TopSection extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.bottomSheet(
-                    Connection(
-                      username: profileData.username,
-                      type: ConnectionType.follower,
-                    ),
-                  );
+                  Get.to(() => Connection(
+                        username: profileData.username,
+                        type: ConnectionType.follower,
+                      ));
                 },
                 child: Container(
                   color: Colors.transparent,
@@ -71,12 +69,10 @@ class TopSection extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.bottomSheet(
-                    Connection(
-                      username: profileData.username,
-                      type: ConnectionType.following,
-                    ),
-                  );
+                  Get.to(() => Connection(
+                        username: profileData.username,
+                        type: ConnectionType.following,
+                      ));
                 },
                 child: Container(
                   color: Colors.transparent,

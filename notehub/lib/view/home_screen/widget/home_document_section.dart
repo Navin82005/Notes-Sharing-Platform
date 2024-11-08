@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:notehub/controller/home_controller.dart';
+import 'package:notehub/core/config/color.dart';
 
 import 'package:notehub/view/widgets/post_card.dart';
 import 'package:notehub/view/widgets/refresher_widget.dart';
@@ -29,6 +30,7 @@ class HomeDocumentSection extends StatelessWidget {
 
           if (controller.updates.isEmpty) {
             return Container(
+              color: GrayscaleWhiteColors.white,
               width: Get.width,
               height: Get.height,
               child: const Expanded(

@@ -55,9 +55,6 @@ class HomeHeader extends StatelessWidget {
   }
 
   _renderAvatar(ProfileController controller) {
-    print("Color Code: ${OtherColors.amethystPurple.value}");
-    print(
-        "${AppMetaData.avatar_url}&name=${controller.profileData.value.displayName}");
     return CircleAvatar(
       radius: 24,
       backgroundImage: NetworkImage(

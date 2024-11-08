@@ -40,7 +40,6 @@ class _FollowButtonState extends State<FollowButton> {
 
   @override
   Widget build(BuildContext context) {
-    print("document.isFollowedByUser: ${widget.document.isFollowedByUser}");
     return GetX<FollowController>(
       builder: (controller) {
         return Container(

@@ -33,12 +33,11 @@ class _DocumentState extends State<Document> {
   }
 
   Future<void> _initializeNotifications() async {
-    final android = AndroidInitializationSettings('@mipmap/ic_launcher');
-    final initSettings = InitializationSettings(android: android);
+    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const initSettings = InitializationSettings(android: android);
     await flutterLocalNotificationsPlugin.initialize(
       initSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
-        print("response.payload: ${response.payload}");
         FileDownload.onNotificationClick(response.payload);
       },
     );
@@ -66,7 +65,6 @@ class _DocumentState extends State<Document> {
   }
 
   _renderHeader() {
-    print(widget.document.icon);
     return Row(
       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

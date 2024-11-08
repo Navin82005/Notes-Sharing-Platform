@@ -35,9 +35,9 @@ class _ProfileState extends State<Profile> {
   Future<void> loadUserData() async {
     Get.put(SettingsDrawerController());
     Get.find<ProfileController>().fetchUserData(username: HiveBoxes.username);
-    Get.find<ShowcaseController>()
+    Get.find<ShowcaseController>(tag: HiveBoxes.username)
         .fetchProfilePosts(username: HiveBoxes.username);
-    Get.find<ShowcaseController>()
+    Get.find<ShowcaseController>(tag: HiveBoxes.username)
         .fetchSavedPosts(username: HiveBoxes.username);
   }
 

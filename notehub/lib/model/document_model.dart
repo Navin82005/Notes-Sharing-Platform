@@ -61,7 +61,6 @@ class DocumentModel {
 
   static String verifyProfile(doc) {
     if (doc["profile"] == "NA" || doc["profile"] == null) {
-      print("AppMetaData.avatar_url: ${AppMetaData.avatar_url}");
       return "${AppMetaData.avatar_url}&name=${doc["displayName"]}";
     }
     return '${AppMetaData.backend_url}/api/documents/download/${doc["profile"]}';

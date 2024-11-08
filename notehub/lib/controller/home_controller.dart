@@ -18,9 +18,6 @@ class HomeController extends GetxController {
     isFetched.value = true;
     isLoading.value = true;
     try {
-      print("Fetching From: ");
-      print("${AppMetaData.backend_url}/api/document/fetch");
-
       var uri = Uri.parse(
           "${AppMetaData.backend_url}/api/document/fetch/${HiveBoxes.username}");
       var response = await http.get(uri);
@@ -40,7 +37,6 @@ class HomeController extends GetxController {
 
       updates.value = tmp;
       update();
-      // print(body);
     } catch (e) {
       print("HomeController: Error in fetching updates: ${e.toString()}");
     }

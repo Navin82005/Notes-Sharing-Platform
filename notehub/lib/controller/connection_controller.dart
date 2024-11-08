@@ -21,11 +21,9 @@ class ConnectionController extends GetxController {
     try {
       var url = Uri.parse(
           "${AppMetaData.backend_url}/api/user/fetch/${HiveBoxes.username}/${type.name}");
-
       var response = await http.post(url);
 
       var data = json.decode(response.body);
-      print("Data: $data");
       if (data["error"]) {
         Toasts.showTostError(message: "Error fetching ${type.name}");
         print("Error in fetching user ${type.name}: ${data["message"]}");

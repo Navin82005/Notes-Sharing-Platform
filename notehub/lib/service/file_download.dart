@@ -19,16 +19,12 @@ class FileDownload {
     var downloadDir = await getDownloadsDirectory();
     var downloadUri = Uri.parse(url);
 
-    print("Download Dir: ${downloadDir!.path}");
-    print("Download Url: $url");
-
-    String savePath = "${downloadDir.path}_$name";
+    String savePath = "${downloadDir!.path}_$name";
     if (await ifFileExists(savePath)) {
       Toasts.showTostWarning(message: "Already downloaded: $name");
     }
 
     var saveFile = File(savePath);
-    print("file name: $name");
 
     await dio.downloadUri(
       downloadUri,
@@ -43,8 +39,6 @@ class FileDownload {
                 progress, flutterLocalNotificationsPlugin);
           }
         }
-        print("Downloading from: $url");
-        print("Download Progress: $received/$total");
       },
     );
     if (flutterLocalNotificationsPlugin != null) {

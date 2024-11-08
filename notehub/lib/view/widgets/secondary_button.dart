@@ -11,7 +11,7 @@ class SecondaryButton extends StatelessWidget {
   final Color? color;
   final TextStyle? textStyle;
   final Widget? child;
-  final Border? border;
+  final BoxBorder? border;
 
   final double? borderRadius;
   final double? width;
@@ -39,7 +39,7 @@ class SecondaryButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius ?? 8),
         border: border ??
             Border.all(
-              width: 1,
+              width: 0,
               color: GrayscaleBlackColors.lightBlack,
             ),
       ),
@@ -49,6 +49,7 @@ class SecondaryButton extends StatelessWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.zero,
             ),
+            side: BorderSide.none,
             padding: EdgeInsets.zero,
             elevation: 0,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,

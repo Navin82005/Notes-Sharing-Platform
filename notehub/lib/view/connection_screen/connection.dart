@@ -5,6 +5,7 @@ import 'package:notehub/core/config/color.dart';
 
 import 'package:notehub/controller/connection_controller.dart';
 import 'package:notehub/view/connection_screen/widget/connection_avatar.dart';
+import 'package:notehub/view/widgets/refresher_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 enum ConnectionType { follower, following }
@@ -30,43 +31,31 @@ class _ConnectionState extends State<Connection> {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      expand: true,
-      initialChildSize: .4,
-      minChildSize: .2,
-      maxChildSize: 1,
-      builder: (context, scrollController) {
-        return Container(
-          decoration: BoxDecoration(
-            color: GrayscaleWhiteColors.white,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.type.name.capitalize!),
+        backgroundColor: GrayscaleWhiteColors.white,
+        elevation: 5,
+        surfaceTintColor: GrayscaleWhiteColors.white,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          color: GrayscaleWhiteColors.white,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
           ),
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: Get.width / 3,
-                ),
-                height: 5,
-                // width: Get.width / 5,
-                decoration: BoxDecoration(
-                  color: GrayscaleGrayColors.silver,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              Expanded(child: _renderConnectionList(scrollController)),
-            ],
-          ),
-        );
-      },
+        ),
+        child: Column(
+          children: [
+            Expanded(child: _renderConnectionList()),
+          ],
+        ),
+      ),
     );
   }
 
-  _renderConnectionList(scrollController) {
+  _renderConnectionList() {
     return GetX<ConnectionController>(builder: (controller) {
       if (controller.isLoading.value) {
         return Shimmer.fromColors(
@@ -74,7 +63,6 @@ class _ConnectionState extends State<Connection> {
           highlightColor: GrayscaleWhiteColors.white,
           child: ListView.builder(
             shrinkWrap: true,
-            controller: scrollController,
             itemCount: 12,
             itemBuilder: (context, index) {
               return const ConnectionAvatar();
@@ -82,16 +70,27 @@ class _ConnectionState extends State<Connection> {
           ),
         );
       }
+      if (controller.usersData.isEmpty) {
+        return _renderEmpty();
+      }
       return ListView.builder(
         shrinkWrap: true,
-        controller: scrollController,
-        itemCount: 12,
+        itemCount: controller.usersData.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(index.toString()),
-          );
+          return ConnectionAvatar(user: controller.usersData[index]);
         },
       );
     });
+  }
+
+  _renderEmpty() {
+    return RefresherWidget(
+      onRefresh: () async {
+        connectionController.fetchConnection(type: widget.type);
+      },
+      child: Center(
+        child: Text("0 ${widget.type.name.capitalize}"),
+      ),
+    );
   }
 }

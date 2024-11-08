@@ -28,7 +28,7 @@ class _LayoutState extends State<Layout> {
     super.initState();
     Get.put(ProfileController());
     Get.put(ProfileUserController());
-    Get.put(ShowcaseController());
+    Get.put(ShowcaseController(), tag: HiveBoxes.username);
     Get.put(DocumentController());
     Get.put(DownloadController());
     loadData();

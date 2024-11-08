@@ -42,7 +42,6 @@ class ProfileController extends GetxController {
         return;
       }
       var user = response_data["user"];
-      print(user);
       var newUser = UserModel(
         displayName: user["display_name"],
         username: user["username"],
@@ -56,7 +55,8 @@ class ProfileController extends GetxController {
       profileData.value = profileData.value.copyWith(
         displayName: user["display_name"],
         username: user["username"],
-        profile: user["profile"] ?? "NA",
+        profile: user["profile"] ??
+            "${AppMetaData.avatar_url}&name=${user["display_name"]}",
         institute: user["institute"],
         followers: user["followers"],
         following: user["following"],

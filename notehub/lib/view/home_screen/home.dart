@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
           children: [
             SafeArea(child: SizedBox.shrink()),
             HomeHeader(),
-            HomeDocumentSection(),
+            Expanded(child: HomeDocumentSection()),
           ],
         ),
       ),

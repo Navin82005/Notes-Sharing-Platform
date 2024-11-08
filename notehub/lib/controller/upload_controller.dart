@@ -27,7 +27,6 @@ class UploadController extends GetxController {
     );
 
     if (result != null && result.files.isNotEmpty) {
-      print(result.files.first);
       selectedDocument.value = result.files.first;
     } else {
       Toasts.showTostWarning(message: "Please select a file");
@@ -41,7 +40,6 @@ class UploadController extends GetxController {
     );
 
     if (result != null && result.files.isNotEmpty) {
-      print(result.files.first);
       selectedCover.value = result.files.first;
     } else {
       Toasts.showTostWarning(message: "Please select a file");
@@ -102,8 +100,6 @@ class UploadController extends GetxController {
     } else {
       clearForm();
     }
-
-    print(responseBody);
 
     isLoading.value = false;
   }

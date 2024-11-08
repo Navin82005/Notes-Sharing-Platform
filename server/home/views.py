@@ -86,6 +86,7 @@ class GetConnection(APIView):
         username = kwargs.pop("username")
         type = kwargs.pop("type")
         acknowledgement = None
+        print("type: ", type == "follower")
         if type == "follower":
             acknowledgement = DB.get_followers(username)
         elif type == "following":

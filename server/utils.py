@@ -374,7 +374,7 @@ class MongoDBConnector:
                     users.update_one({"username": alt_username}, { "$pull" : {"followers.accounts": username}, "$inc" : {"followers.count": -1}})
                 else:
                     users.update_one({"username": username}, { "$push" : {"following.accounts": alt_username}, "$inc" : {"following.count": 1}})
-                    users.update_one({"username": alt_username}, { "$push" : {"followers.accounts": username}, "$inc" : {"followers.count": 1}, "$push" : {"notifications.follow": f"{follow_user["display_name"]} followed you"}}, upsert=True)
+                    users.update_one({"username": alt_username}, { "$push" : {"followers.accounts": username}, "$inc" : {"followers.count": 1}}, upsert=True)
                 return {"error": False, "acknowledgement": True}
             else:
                 return {"error": True, "message": "unknown follow user"}
@@ -387,7 +387,7 @@ class MongoDBConnector:
         if find_user is not None:
             users = []
             followers = find_user["followers"]["accounts"]
-            print("find_user:", find_user)
+            print("followers: ", followers)
             for follower in followers:
                 user = users_collection.find_one({"username": follower}, {"_id": 0})
                 user.pop("followers")

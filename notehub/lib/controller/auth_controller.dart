@@ -54,7 +54,6 @@ class AuthController extends GetxController {
           Toasts.showTostError(message: "wrong username or password");
         } else {
           var user = body["user"];
-          print(user);
           var newUser = UserModel(
             displayName: user["display_name"],
             username: user["username"],

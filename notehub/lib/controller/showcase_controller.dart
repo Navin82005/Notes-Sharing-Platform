@@ -26,6 +26,7 @@ class ShowcaseController extends GetxController {
       var body = json.decode(response.body);
 
       if (body["error"]) {
+        update();
         isLoading.value = false;
         return;
       }
@@ -59,6 +60,8 @@ class ShowcaseController extends GetxController {
 
       if (body["error"]) {
         isLoading.value = false;
+        update();
+
         return;
       }
       var tmpData = <DocumentModel>[];

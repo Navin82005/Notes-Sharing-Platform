@@ -8,9 +8,6 @@ Future<String> saveFile({required String filename, required data}) async {
 
   final filePath = "${cacheDirectory.path}/$filename";
 
-  print("CACHE DIRECTORY PATH: ${cacheDirectory.path}");
-  print("FILE PATH: $filePath");
-
   final newFile = File(filePath);
   await newFile.writeAsBytes(binData);
 

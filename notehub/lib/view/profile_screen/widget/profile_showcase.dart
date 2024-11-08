@@ -1,59 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:notehub/view/profile_screen/widget/post_renderer.dart';
-import 'package:shimmer/shimmer.dart';
-
-import 'package:notehub/controller/profile_controller.dart';
 import 'package:notehub/controller/showcase_controller.dart';
-
 import 'package:notehub/core/config/color.dart';
 import 'package:notehub/core/helper/custom_icon.dart';
 import 'package:notehub/core/helper/hive_boxes.dart';
 
-import 'package:notehub/model/document_model.dart';
+class ProfileTabController extends GetxController {
+  var selectedIndex = 0.obs;
 
-import 'package:notehub/view/widgets/document_card.dart';
+  void changeTabIndex(int index) {
+    selectedIndex.value = index;
+  }
+}
 
-class ProfileShowcase extends StatelessWidget {
+class ProfileShowcase extends StatefulWidget {
   final String? username;
   const ProfileShowcase({super.key, this.username});
 
   @override
+  State<ProfileShowcase> createState() => _ProfileShowcaseState();
+}
+
+class _ProfileShowcaseState extends State<ProfileShowcase>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  final ProfileTabController profileTabController =
+      Get.put(ProfileTabController());
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: HiveBoxes.username == widget.username ? 2 : 1,
+      vsync: this,
+    );
+
+    // Listen to tab changes (scrolling or tapping) and update the selectedIndex
+    _tabController.addListener(() {
+      profileTabController.changeTabIndex(_tabController.index);
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: DefaultTabController(
-        length: HiveBoxes.username == username ? 2 : 1,
-        child: Column(
-          children: [
-            TabBar(
+      child: Column(
+        children: [
+          Obx(
+            () => TabBar(
+              controller: _tabController,
               indicatorColor: GrayscaleBlackColors.tintedBlack,
               labelColor: GrayscaleBlackColors.black,
               unselectedLabelColor: GrayscaleGrayColors.silver,
               tabs: [
-                const Tab(
-                  icon: CustomIcon(path: "assets/icons/book.svg"),
+                Tab(
+                  icon: CustomIcon(
+                    path: profileTabController.selectedIndex.value == 0
+                        ? "assets/icons/book.svg"
+                        : "assets/icons/book.svg",
+                  ),
                 ),
-                if (HiveBoxes.username == username)
-                  const Tab(
-                    icon: CustomIcon(path: "assets/icons/bookmark.svg"),
+                if (HiveBoxes.username == widget.username)
+                  Tab(
+                    icon: CustomIcon(
+                      path: profileTabController.selectedIndex.value == 1
+                          ? "assets/icons/bookmark-mark.svg"
+                          : "assets/icons/bookmark.svg",
+                    ),
                   ),
               ],
             ),
-            Expanded(
-              child: TabBarView(
-                children: [
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                PostsRenderer(
+                  usernameTag: widget.username!,
+                  posts: Get.find<ShowcaseController>(tag: widget.username)
+                      .profilePosts,
+                ),
+                if (HiveBoxes.username == widget.username)
                   PostsRenderer(
-                    posts: Get.find<ShowcaseController>().profilePosts,
+                    usernameTag: widget.username!,
+                    posts: Get.find<ShowcaseController>(tag: widget.username)
+                        .savedPosts,
                   ),
-                  if (HiveBoxes.username == username)
-                    PostsRenderer(
-                      posts: Get.find<ShowcaseController>().savedPosts,
-                    ),
-                ],
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

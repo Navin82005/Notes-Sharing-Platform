@@ -23,6 +23,15 @@ class ProfileUserController extends GetxController {
   var isLoading = false.obs;
 
   fetchUserData({username}) async {
+    profileData.value = profileData.value.copyWith(
+      displayName: '',
+      username: "",
+      institute: "",
+      profile: "",
+      followers: 0,
+      following: 0,
+      documents: 0,
+    );
     isLoading.value = true;
 
     var uri = Uri.parse(
@@ -40,11 +49,11 @@ class ProfileUserController extends GetxController {
         return;
       }
       var user = response_data["user"];
-      print(user);
       profileData.value = profileData.value.copyWith(
         displayName: user["display_name"],
         username: user["username"],
-        profile: user["profile"] ?? "NA",
+        profile: user["profile"] ??
+            "${AppMetaData.avatar_url}&name=${user["display_name"]}",
         institute: user["institute"],
         followers: user["followers"],
         following: user["following"],
@@ -62,7 +71,6 @@ class ProfileUserController extends GetxController {
     try {
       var url = Uri.parse(
           "${AppMetaData.backend_url}/api/user/follow/${HiveBoxes.username}");
-      print("${AppMetaData.backend_url}/api/user/follow/${HiveBoxes.username}");
 
       var response = await http.post(url, body: {
         "username": username,

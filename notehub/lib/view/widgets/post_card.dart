@@ -120,7 +120,6 @@ class _PostCardState extends State<PostCard> {
   }
 
   _renderImage() {
-    print("document.icon: ${widget.document.icon}");
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: CachedNetworkImage(

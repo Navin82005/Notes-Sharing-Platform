@@ -15,18 +15,21 @@ class BottomFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      decoration: BoxDecoration(color: GrayscaleWhiteColors.white, boxShadow: [
-        BoxShadow(
-          color: GrayscaleWhiteColors.darkWhite,
-          spreadRadius: 1,
-          blurRadius: 3,
-        )
-      ]),
+      decoration: BoxDecoration(
+        color: GrayscaleWhiteColors.white,
+        boxShadow: [
+          BoxShadow(
+            color: GrayscaleWhiteColors.darkWhite,
+            spreadRadius: 1,
+            blurRadius: 3,
+          )
+        ],
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 18),
       child: GetX<BottomNavigationController>(
         builder: (controller) {
           return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
@@ -36,6 +39,9 @@ class BottomFooter extends StatelessWidget {
                 },
                 child: CustomIcon(
                   path: "assets/icons/house.svg",
+                  color: controller.currentPage.value == 0
+                      ? GrayscaleBlackColors.black
+                      : GrayscaleGrayColors.shadedGray,
                   size: controller.currentPage.value != 0 ? 25 : 27,
                 ),
               ),
@@ -47,11 +53,13 @@ class BottomFooter extends StatelessWidget {
                 child: CustomIcon(
                   path: "assets/icons/square-plus.svg",
                   size: controller.currentPage.value != 1 ? 25 : 27,
+                  color: controller.currentPage.value == 1
+                      ? GrayscaleBlackColors.black
+                      : GrayscaleGrayColors.shadedGray,
                 ),
               ),
               GestureDetector(
                 onTap: () {
-                  print(AppMetaData.avatar_url);
                   controller.currentPage.value = 2;
                   controller.update();
                 },

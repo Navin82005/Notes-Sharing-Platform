@@ -31,15 +31,14 @@ class _ProfileUserState extends State<ProfileUser> {
   void initState() {
     super.initState();
     Get.put(ProfileUserController());
+    Get.put(ShowcaseController(), tag: widget.username);
     loadUserData();
   }
 
   Future<void> loadUserData() async {
-    print("HiveBoxes.username: ${HiveBoxes.username}");
-    print("widget.username: ${widget.username}");
     Get.find<ProfileUserController>().fetchUserData(username: widget.username);
-    Get.find<ShowcaseController>().fetchProfilePosts(username: widget.username);
-    Get.find<ShowcaseController>().fetchSavedPosts(username: widget.username);
+    Get.find<ShowcaseController>(tag: widget.username)
+        .fetchProfilePosts(username: widget.username);
   }
 
   @override

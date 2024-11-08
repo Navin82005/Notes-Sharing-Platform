@@ -17,8 +17,6 @@ void main() async {
   Hive.registerAdapter(UserModelAdapter());
   await Hive.openBox<UserModel>("user");
   Get.put(BottomNavigationController());
-  print("HiveUserBox ${Hive.box<UserModel>("user")}");
-  print("HiveUserBox ${HiveBoxes.userBox.containsKey('data')}");
   runApp(const MyApp());
 }
 
