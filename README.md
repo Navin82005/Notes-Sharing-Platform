@@ -48,9 +48,9 @@ To set up the project locally, follow these steps:
 
 Here are some screenshots demonstrating the app features:
 
-| Home Page                     | Search Page                     | Manga Details                | Favorites List               |
+| Home Page                      | Profile Page                   | Document Details             | Upload Page               |
 | ------------------------------ | ------------------------------ | ---------------------------- | ---------------------------- |
-| ![Home Page](outputs/home.jpg) | ![Searck Page](out/screen/search.jpg) | ![Manga Details](out/screen/detail.jpg) | ![Favorites](out/screen/favorite.jpg) |
+| ![Home Page](outputs/home.jpg) | ![Searck Page](outputs/profile.jpg) | ![Manga Details](outputs/document.jpg) | ![Favorites](outputs/upload.jpg) |
 |![Loader](out/screen/loader.jpg)|![Filter Search](out/screen/filter.jpg)|![Onboarding](out/screen/onboarding.jpg)||
 
 
