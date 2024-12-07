@@ -17,9 +17,6 @@ NoteHub is a mobile application developed using Flutter, designed to facilitate 
 - **Backend**: Firebase for authentication and database services
 - **Storage**: Cloud storage for notes and user data
 
-## Collaboration
-This project is a collaborative effort by a team of 5 members, each contributing to different facets of the application, from backend development to UI design and user experience.
-
 ## Installation
 
 To set up the project locally, follow these steps:
