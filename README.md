@@ -48,10 +48,9 @@ To set up the project locally, follow these steps:
 
 Here are some screenshots demonstrating the app features:
 
-| Home Page                      | Profile Page                   | Document Details             | Upload Page               |
+| Home Page                      | Profile Page                   | Document Details             | Upload Page                  |
 | ------------------------------ | ------------------------------ | ---------------------------- | ---------------------------- |
 | ![Home Page](outputs/home.jpg) | ![Profile Page](outputs/profile.jpg) | ![Document Details](outputs/document.jpg) | ![Upload Page](outputs/upload.jpg) |
-|![Loader](out/screen/loader.jpg)|![Filter Search](out/screen/filter.jpg)|![Onboarding](out/screen/onboarding.jpg)||
 
 
 
