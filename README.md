@@ -35,27 +35,8 @@ To set up the project locally, follow these steps:
       ```
       flutter run
 
-<!-- ## Contributors
-- Member 1: [Role/Responsibilities]
-- Member 2: [Role/Responsibilities]
-- Member 3: [Role/Responsibilities]
-- Member 4: [Role/Responsibilities]
-- Member 5: [Role/Responsibilities]
-
 ## License
 This project is licensed under the [License Name].
 
-## Contact
-For more information or any queries, please contact us at [contact-information].
-
-## Acknowledgments
-Special thanks to [institution/organization/person] for guidance and resources that made this project possible.
--->
-
-#
-<!-- <div style="text-align: center;">
-   <img src="https://repobeats.axiom.co/api/embed/2875c3c5aeb4338e0569f6d23203cb8794666edc.svg" alt="Repobeats analytics image" />
-</div>
--->
 
 ![Alt](https://repobeats.axiom.co/api/embed/2875c3c5aeb4338e0569f6d23203cb8794666edc.svg "Repobeats analytics image")
