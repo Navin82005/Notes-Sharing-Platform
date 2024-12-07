@@ -50,7 +50,7 @@ Here are some screenshots demonstrating the app features:
 
 | Home Page                      | Profile Page                   | Document Details             | Upload Page               |
 | ------------------------------ | ------------------------------ | ---------------------------- | ---------------------------- |
-| ![Home Page](outputs/home.jpg) | ![Searck Page](outputs/profile.jpg) | ![Manga Details](outputs/document.jpg) | ![Favorites](outputs/upload.jpg) |
+| ![Home Page](outputs/home.jpg) | ![Profile Page](outputs/profile.jpg) | ![Document Details](outputs/document.jpg) | ![Upload Page](outputs/upload.jpg) |
 |![Loader](out/screen/loader.jpg)|![Filter Search](out/screen/filter.jpg)|![Onboarding](out/screen/onboarding.jpg)||
 
 
