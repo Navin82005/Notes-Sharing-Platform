@@ -17,45 +17,42 @@ NoteHub is a mobile application developed using Flutter, designed to facilitate 
 - **Backend**: Firebase for authentication and database services
 - **Storage**: Cloud storage for notes and user data
 
-## Collaboration
-This project is a collaborative effort by a team of 5 members, each contributing to different facets of the application, from backend development to UI design and user experience.
-
 ## Installation
+
 To set up the project locally, follow these steps:
+
    1. Clone the repository:
       ```
       git clone https://github.com/Navin82005/Notes-Sharing-Platform.git
+      ```
+      
    2. Navigate to the project directory:
       ```
       cd note_hub
+      ```
+      
    3. Install dependencies:
       ```
       flutter pub get
+      ```
+      
    4. Run the application:
       ```
       flutter run
+      ```
 
-<!-- ## Contributors
-- Member 1: [Role/Responsibilities]
-- Member 2: [Role/Responsibilities]
-- Member 3: [Role/Responsibilities]
-- Member 4: [Role/Responsibilities]
-- Member 5: [Role/Responsibilities]
+## App Screenshots
+
+Here are some screenshots demonstrating the app features:
+
+| Home Page                      | Profile Page                   | Document Details             | Upload Page                  |
+| ------------------------------ | ------------------------------ | ---------------------------- | ---------------------------- |
+| ![Home Page](outputs/home.jpg) | ![Profile Page](outputs/profile.jpg) | ![Document Details](outputs/document.jpg) | ![Upload Page](outputs/upload.jpg) |
+
+
 
 ## License
-This project is licensed under the [License Name].
+This project is licensed under the [License](LICENSE).
 
-## Contact
-For more information or any queries, please contact us at [contact-information].
-
-## Acknowledgments
-Special thanks to [institution/organization/person] for guidance and resources that made this project possible.
--->
-
-#
-<!-- <div style="text-align: center;">
-   <img src="https://repobeats.axiom.co/api/embed/2875c3c5aeb4338e0569f6d23203cb8794666edc.svg" alt="Repobeats analytics image" />
-</div>
--->
 
 ![Alt](https://repobeats.axiom.co/api/embed/2875c3c5aeb4338e0569f6d23203cb8794666edc.svg "Repobeats analytics image")
