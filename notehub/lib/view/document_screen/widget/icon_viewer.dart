@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:notehub/core/helper/custom_icon.dart';
-import 'package:notehub/model/document_model.dart';
 
 import 'package:notehub/service/file_download.dart';
 

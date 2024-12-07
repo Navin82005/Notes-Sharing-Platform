@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:lottie/lottie.dart';
 
 import 'package:notehub/controller/bottom_navigation_controller.dart';
-import 'package:notehub/core/helper/hive_boxes.dart';
+import 'package:notehub/controller/showcase_controller.dart';
 
 import 'package:notehub/model/user_model.dart';
 
@@ -17,6 +16,7 @@ void main() async {
   Hive.registerAdapter(UserModelAdapter());
   await Hive.openBox<UserModel>("user");
   Get.put(BottomNavigationController());
+  Get.put(ShowcaseController());
   runApp(const MyApp());
 }
 

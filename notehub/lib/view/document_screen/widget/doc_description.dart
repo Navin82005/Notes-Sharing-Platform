@@ -8,9 +8,7 @@ import 'package:notehub/core/helper/custom_icon.dart';
 
 import 'package:notehub/model/document_model.dart';
 import 'package:notehub/view/document_screen/widget/icon_viewer.dart';
-import 'package:notehub/view/profile_screen/profile_user.dart';
 import 'package:notehub/view/widgets/loader.dart';
-import 'package:notehub/view/widgets/primary_button.dart';
 
 class LikeController extends GetxController {
   var isLiked = false.obs;

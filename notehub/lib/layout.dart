@@ -10,8 +10,6 @@ import 'package:notehub/controller/showcase_controller.dart';
 
 import 'package:notehub/core/helper/hive_boxes.dart';
 
-import 'package:notehub/model/user_model.dart';
-
 import 'package:notehub/view/bottom_footer/bottom_footer.dart';
 
 class Layout extends StatefulWidget {

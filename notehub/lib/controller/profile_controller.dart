@@ -8,7 +8,6 @@ import 'package:notehub/model/user_model.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:notehub/view/auth_screen/login.dart';
-import 'package:notehub/view/widgets/toasts.dart';
 
 class ProfileController extends GetxController {
   var profileData = UserModel(

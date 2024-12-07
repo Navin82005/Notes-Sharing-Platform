@@ -6,6 +6,9 @@ from utils import DB
 
 class UserLogin(APIView):
     def post(self, request, *args, **kwargs):
+        mode = kwargs['mode']
+        body = request.data
+        print("Body:", body, mode)
         try:
             mode = kwargs.pop('mode')
             if mode == 'email':

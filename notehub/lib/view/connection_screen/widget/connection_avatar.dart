@@ -7,7 +7,6 @@ import 'package:notehub/core/meta/app_meta.dart';
 import 'package:notehub/model/mini_user_model.dart';
 import 'package:notehub/view/connection_screen/widget/more_options.dart';
 import 'package:notehub/view/profile_screen/profile_user.dart';
-import 'package:notehub/view/widgets/secondary_button.dart';
 
 class ConnectionAvatar extends StatelessWidget {
   final MiniUserModel? user;

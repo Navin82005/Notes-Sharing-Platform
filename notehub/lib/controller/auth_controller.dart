@@ -33,6 +33,8 @@ class AuthController extends GetxController {
   }
 
   loginWithEmail() async {
+    print(emailEditingController.text);
+    print(passwordEditingController.text);
     isLoading.value = true;
 
     if (verifyForm()) {
