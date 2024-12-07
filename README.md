@@ -48,8 +48,10 @@ Here are some screenshots demonstrating the app features:
 | Home Page                      | Profile Page                   | Document Details             | Upload Page                  |
 | ------------------------------ | ------------------------------ | ---------------------------- | ---------------------------- |
 | ![Home Page](outputs/home.jpg) | ![Profile Page](outputs/profile.jpg) | ![Document Details](outputs/document.jpg) | ![Upload Page](outputs/upload.jpg) |
-| Following Page                 | Followers Page                   | Saved Documents             | Upload Page                 |
-| ![Home Page](outputs/following.jpg) | ![Profile Page](outputs/follower.jpg) | ![Document Details](outputs/saved.jpg) | ![Upload Page](outputs/upload.jpg) |
+| Following Page                 | Followers Page                   | Saved Documents             | Download Page                 |
+| ![Home Page](outputs/following.jpg) | ![Profile Page](outputs/follower.jpg) | ![Document Details](outputs/saved.jpg) | ![Upload Page](outputs/download.jpg) |
+| Other Person Profile           |
+| ![Home Page](outputs/other-profile.jpg) |
 
 
 
