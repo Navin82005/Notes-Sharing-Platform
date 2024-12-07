@@ -21,22 +21,31 @@ NoteHub is a mobile application developed using Flutter, designed to facilitate 
 This project is a collaborative effort by a team of 5 members, each contributing to different facets of the application, from backend development to UI design and user experience.
 
 ## Installation
+
 To set up the project locally, follow these steps:
+
    1. Clone the repository:
       ```
       git clone https://github.com/Navin82005/Notes-Sharing-Platform.git
+      ```
+      
    2. Navigate to the project directory:
       ```
       cd note_hub
+      ```
+      
    3. Install dependencies:
       ```
       flutter pub get
+      ```
+      
    4. Run the application:
       ```
       flutter run
+      ```
 
 ## License
-This project is licensed under the [License Name].
+This project is licensed under the [License](LICENSE).
 
 
 ![Alt](https://repobeats.axiom.co/api/embed/2875c3c5aeb4338e0569f6d23203cb8794666edc.svg "Repobeats analytics image")
