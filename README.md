@@ -58,5 +58,6 @@ Here are some screenshots demonstrating the app features:
 ## License
 This project is licensed under the [License](LICENSE).
 
+#
 
 ![Alt](https://repobeats.axiom.co/api/embed/2875c3c5aeb4338e0569f6d23203cb8794666edc.svg "Repobeats analytics image")
