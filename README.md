@@ -3,6 +3,8 @@
 ## Overview
 NoteHub is a mobile application developed using Flutter, designed to facilitate the sharing and accessing of study notes, lecture summaries, and educational resources among students. The app categorizes content based on subjects, allowing users to upvote quality notes and create personalized profiles to track and share their contributions.
 
+![Thumbnail](https://github.com/Navin82005/Notes-Sharing-Platform/blob/main/outputs/NoteHubThumbnail.png)
+
 ## Features
 - **User Authentication**: Secure login and registration with email or social media integration.
 - **Profile Customization**: Users can set up and personalize their profiles with academic interests.
